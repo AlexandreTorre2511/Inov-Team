@@ -257,6 +257,22 @@ details.tv td{padding:6px 8px;border-bottom:1px solid var(--line);font-variant-n
 .acc .an{flex:none;white-space:nowrap}
 .acc .an b{font-variant-numeric:tabular-nums}
 .acc .alogo{flex:0 1 auto;min-width:0}
+
+:root{--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#eda100;--s5:#e87ba4}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--s5:#d55181}}
+:root[data-theme="dark"]{--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--s5:#d55181}
+.donut{display:flex;align-items:center;gap:24px;flex-wrap:wrap;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.donut svg{width:150px;height:150px;flex:none}
+.donut path{cursor:default}
+.donut path:hover,.donut path:focus-visible{opacity:.85}
+.donut .dc{font-family:var(--font-display);font-size:26px;font-weight:700;fill:var(--fg)}
+.donut .dcs{font-size:11px;fill:var(--muted)}
+.lg{display:flex;flex-direction:column;gap:8px;min-width:0;flex:1 1 180px}
+.lg div{display:grid;grid-template-columns:12px minmax(0,1fr) auto auto;gap:10px;align-items:center;font-size:13px}
+.lg i{width:12px;height:12px;border-radius:3px}
+.lg b{font-weight:600}
+.lg span{font-variant-numeric:tabular-nums;color:var(--muted);font-size:12.5px}
+.lg em{font-style:normal;font-weight:700;font-variant-numeric:tabular-nums;text-align:right;min-width:24px}
 </style>
 </head>
 <body>
@@ -529,6 +545,23 @@ function hbars(rows, unit, total){
 function table(rows, head){
   return `<details class="tv"><summary>Voir le tableau</summary><table><thead><tr><th>${head[0]}</th><th>${head[1]}</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r[0])}</td><td>${r[1]}</td></tr>`).join("")}</tbody></table></details>`;
 }
+
+function donut(rows, unit, centerLabel){
+  const tot=rows.reduce((s,r)=>s+r[1],0), R=70, r0=46, cx=75, cy=75;
+  let a=-Math.PI/2; const gap=0;
+  const pt=(ang,rad)=>[cx+rad*Math.cos(ang), cy+rad*Math.sin(ang)];
+  const paths=rows.map((r,i)=>{
+    const sweep=r[1]/tot*Math.PI*2, a1=a, a2=a+sweep; a=a2;
+    const large=sweep>Math.PI?1:0;
+    const [x1,y1]=pt(a1,R),[x2,y2]=pt(a2,R),[x3,y3]=pt(a2,r0),[x4,y4]=pt(a1,r0);
+    const d=`M${x1} ${y1}A${R} ${R} 0 ${large} 1 ${x2} ${y2}L${x3} ${y3}A${r0} ${r0} 0 ${large} 0 ${x4} ${y4}Z`;
+    const pct=Math.round(r[1]/tot*100);
+    const tip=`${esc(r[0])}<span>${r[1]} ${r[1]>1?unit[1]:unit[0]} · ${pct} %</span>`;
+    return `<path d="${d}" fill="var(--s${i+1})" stroke="var(--surface)" stroke-width="2" stroke-linejoin="round" tabindex="0" data-tip="${tip.replace(/"/g,"&quot;")}" aria-label="${esc(r[0])} : ${r[1]}, ${pct} %"></path>`;
+  }).join("");
+  const legend=rows.map((r,i)=>`<div><i style="background:var(--s${i+1})"></i><b>${esc(r[0])}</b><span>${Math.round(r[1]/tot*100)} %</span><em>${r[1]}</em></div>`).join("");
+  return `<div class="donut"><svg viewBox="0 0 150 150" role="img" aria-label="Répartition, total ${tot}">${paths}<text class="dc" x="75" y="78" text-anchor="middle">${tot}</text><text class="dcs" x="75" y="96" text-anchor="middle">${centerLabel}</text></svg><div class="lg">${legend}</div></div>`;
+}
 function stats(){
   const withC = C.filter(c=>c.collabs.length);
   const parClient = withC.map(c=>[c.name,c.collabs.length,c.big?"Grand groupe":"Autre compte"]).sort((a,b)=>b[1]-a[1]);
@@ -555,8 +588,8 @@ function stats(){
   </div>
   <div class="grid g2">
     <section class="card"><div class="ch"><div class="tt"><h2>Consultants par client</h2></div></div><div class="cb">${hbars(parClient,["consultant","consultants"],total)}${table(parClient,["Client","Consultants"])}</div></section>
-    <section class="card"><div class="ch"><div class="tt"><h2>Consultants par voie d'accès</h2></div></div><div class="cb">${hbars(viaRows,["consultant","consultants"],total)}<p class="cnote">CGI pour Amadeus, Atos pour Air France, Softeam pour Docaposte. En direct : Orange, PRO BTP, EPS et Kappa.</p>${table(viaRows,["Voie d'accès","Consultants"])}</div></section>
-    <section class="card"><div class="ch"><div class="tt"><h2>Métiers recherchés par famille</h2></div></div><div class="cb">${hbars(famRows,["métier","métiers"],nbMetiers)}<p class="cnote">${nbMetiers} métiers recensés sur les ${C.length} comptes, Arkopharma inclus.</p>${table(famRows,["Famille","Métiers"])}</div></section>
+    <section class="card"><div class="ch"><div class="tt"><h2>Consultants par voie d'accès</h2></div></div><div class="cb">${donut(viaRows,["consultant","consultants"],"consultants")}${hbars(viaRows,["consultant","consultants"],total)}<p class="cnote">CGI pour Amadeus, Atos pour Air France, Softeam pour Docaposte. En direct : Orange, PRO BTP, EPS et Kappa.</p>${table(viaRows,["Voie d'accès","Consultants"])}</div></section>
+    <section class="card"><div class="ch"><div class="tt"><h2>Métiers recherchés par famille</h2></div></div><div class="cb">${donut(famRows,["métier","métiers"],"métiers")}${hbars(famRows,["métier","métiers"],nbMetiers)}<p class="cnote">${nbMetiers} métiers recensés sur les ${C.length} comptes, Arkopharma inclus.</p>${table(famRows,["Famille","Métiers"])}</div></section>
     <section class="card"><div class="ch"><div class="tt"><h2>Technologies les plus présentes</h2></div></div><div class="cb">${hbars(techRows,["compte","comptes"])}<p class="cnote">Nombre de comptes, sur ${C.length}, dont la stack cite la technologie.</p>${table(techRows,["Technologie","Comptes"])}</div></section>
   </div>`;
 }
