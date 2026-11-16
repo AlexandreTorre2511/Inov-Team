@@ -294,7 +294,7 @@ const C = [
   depts:[{k:"CBS",t:"CBS · Centres de services",d:"Un prestataire y a une équipe dédiée sur un périmètre défini, avec un engagement de service : développement, maintenance et évolution des applications.",subs:["Airlines","Next Wave","Hospitality","Airport","Travel Channel"],ours:true},{k:"SURF",t:"SURF · Plateforme d'appels d'offres",d:"Référence les besoins hors CBS. Les fournisseurs y consultent les demandes et proposent des profils sur des besoins ponctuels ou spécifiques."}],
   metiers:[["Développeur Java","Java, Angular, cloud AWS / Azure"],["QA Automation","Automatisation des tests"],["DevOps","Azure, Kubernetes"],["Product Definition Analyst","Méthodologie Agile SAFe"]],
   tech:["Java","Angular","AWS","Azure","Kubernetes","Agile SAFe"],
-  contacts:[["Samir Zennani","CGI · intermédiaire sur le compte"]],
+  contacts:[["Samir Zennani","CGI · partenaire sur le compte"]],
   collabs:["Guillaume ADAM","Romain ALGRET","Salah BENNOUR","Nicolas COSTA","Lyes DJERADA","Idris GASMI","Brice MARTINEZ","Romain MAUSSANG","Gaël ROTTIER","Simon SEMAAN","Gaetano SOTTILE"],
   src:[["Air Journal","https://www.air-journal.fr/?p=196041"]]},
  {id:"air-france",name:"Air France",ini:"AF",big:true,sector:"Transport aérien",site:"Centre informatique de Sophia Antipolis",via:"Via Atos · Max Chazarra",
@@ -320,7 +320,7 @@ const C = [
   depts:[{k:"ALL",t:"Toutes les activités",d:"Pas de découpage à retenir : un profil peut être positionné sur l'ensemble du périmètre.",ours:true}],
   metiers:[["Développeur Java / Angular","Développement applicatif"],["DevOps","Environnement proche de celui d'Orange"],["SRE","Fiabilité et exploitation des plateformes"],["Product Owner","Pilotage produit"],["Customer Success Manager","Relation client"]],
   tech:["Java","Angular","Kubernetes","Helm","GCP","Ansible","Jenkins"],
-  contacts:[["Matthieu Fossat","Softeam · intermédiaire sur le compte"]],
+  contacts:[["Matthieu Fossat","Softeam · partenaire sur le compte"]],
   collabs:["Sébastien BOUTON","Damien COCHARD","Yann COURBIERE","Andréas MOUZONG","Jean TINDEL"],
   src:[["Offre Docaposte","https://jobijoba.com/fr/annonce/54/26befe6f41851ca07b1ecefcf9767ef6"],["Offre SRE Docaposte","https://www.taffin.tech/jobs/MTg5Mzkz"]]},
  {id:"orange",name:"Orange",ini:"OR",big:true,sector:"Télécommunications",site:"Campus Orange Sophia",via:"En direct · DTOF",
@@ -420,7 +420,7 @@ function overview(){
   <div class="grid g4">
     <div class="kpi"><div class="kt">Consultants en mission ${`<span class="ki">${IC.users}</span>`}</div><b>${total}</b><div class="kf">chez ${C.filter(c=>c.collabs.length).length} clients</div></div>
     <div class="kpi"><div class="kt">Grands groupes <span class="ki">${IC.build}</span></div><b>5</b><div class="kf">${bigTotal} consultants, soit ${Math.round(bigTotal/total*100)} % du total</div></div>
-    <div class="kpi"><div class="kt">Accès via un intermédiaire <span class="ki">${IC.link}</span></div><b>${inter}</b><div class="kf">CGI, Atos et Softeam</div></div>
+    <div class="kpi"><div class="kt">Accès via un partenaire <span class="ki">${IC.link}</span></div><b>${inter}</b><div class="kf">CGI, Atos et Softeam</div></div>
     <div class="kpi"><div class="kt">Nouveau contrat <span class="ki">${IC.spark}</span></div><b>2027</b><div class="kf">TMA Arkopharma, démarrage en janvier</div></div>
   </div>
   <div class="sechead"><div><h2>Grands groupes</h2><p>Les cinq comptes qui portent l'essentiel de nos missions.</p></div></div>
@@ -550,7 +550,7 @@ function stats(){
   <div class="grid g4">
     ${tile("Consultants en mission", total, `répartis chez ${withC.length} clients`)}
     ${tile("Part des 5 grands groupes", bigPct+" %", `${bigTotal} consultants sur ${total}`, bigPct)}
-    ${tile("Placés via un intermédiaire", Math.round(inter/total*100)+" %", `${inter} consultants via CGI, Atos ou Softeam`, Math.round(inter/total*100))}
+    ${tile("Placés via un partenaire", Math.round(inter/total*100)+" %", `${inter} consultants via CGI, Atos ou Softeam`, Math.round(inter/total*100))}
     ${tile("Premier client", top[0], `${top[1]} consultants, soit ${Math.round(top[1]/total*100)} % du total`)}
   </div>
   <div class="grid g2">
