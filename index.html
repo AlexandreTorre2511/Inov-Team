@@ -280,6 +280,38 @@ details.tv td{padding:6px 8px;border-bottom:1px solid var(--line);font-variant-n
 .plogo.hero{padding:2px 7px;margin-inline:2px}.plogo.hero img{max-height:14px;max-width:70px}
 .plogo.ct{width:44px;height:30px;padding:4px;border:1px solid var(--line);border-radius:8px}.plogo.ct img{max-height:20px;max-width:36px}
 .acc .via{flex-wrap:wrap}
+
+/* Questionnaire (styles repris du système Inov Team) */
+.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{border:1px solid var(--accent);background:var(--accent);color:var(--on-accent);padding:9px 16px;border-radius:10px;font-weight:700;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;box-shadow:0 1px 2px rgba(17,22,58,.12)}
+.btn:hover{background:var(--accent-2);border-color:var(--accent-2)}
+.btn.grad{background:var(--grad);border-color:transparent;color:#fff}.btn.grad:hover{filter:brightness(1.08)}
+.btn.sec{background:var(--surface);color:var(--fg);border-color:var(--line-2);box-shadow:none}.btn.sec:hover{background:var(--sunk)}
+.btn.danger{background:var(--surface);color:#D0263C;border-color:var(--line-2);box-shadow:none}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn svg.i{width:16px;height:16px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field > label,.field > .lbl{font-weight:700;font-size:13px}
+.req{color:#D0263C}
+.hint{font-size:12px;color:var(--muted);font-weight:500}
+select,input[type=text],textarea{font:inherit;color:inherit;background:var(--surface);border:1px solid var(--line-2);border-radius:10px;padding:9px 12px;min-width:0;width:100%}
+textarea{resize:vertical;min-height:84px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{border:1px solid var(--line-2);background:var(--surface);padding:7px 14px;border-radius:999px;font-weight:600;font-size:13px}
+.seg button:hover{border-color:var(--accent)}
+.seg button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.check{display:flex;gap:8px;align-items:center;font-weight:600;font-size:13px}
+input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px}
+.qf{gap:18px}
+.qf h3{margin-top:6px}
+.qgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 18px}
+@media (max-width:760px){.qgrid{grid-template-columns:minmax(0,1fr)}}
+.qfoot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:16px}
+.alert.info{background:var(--accent-soft)}.alert.info .dot{background:var(--accent)}
+.alert.rouge{background:#FDE6E9}.alert.rouge .dot{background:#D0263C}
+.alert a{font-weight:700}
+.byline{font-size:12px;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -298,6 +330,8 @@ details.tv td{padding:6px 8px;border-bottom:1px solid var(--line);font-variant-n
 <script>
 const SUN = '<svg class="sun" viewBox="0 0 300 300" aria-hidden="true"><g stroke="#fff" stroke-linecap="round"><line x1="206" y1="150" x2="216" y2="150" stroke-width="9"/><line x1="232" y1="150" x2="250" y2="150" stroke-width="11"/><line x1="266" y1="150" x2="292" y2="150" stroke-width="13"/><line x1="189.6" y1="189.6" x2="196.7" y2="196.7" stroke-width="9"/><line x1="208" y1="208" x2="220.7" y2="220.7" stroke-width="11"/><line x1="232" y1="232" x2="250.4" y2="250.4" stroke-width="13"/><line x1="150" y1="206" x2="150" y2="216" stroke-width="9"/><line x1="150" y1="232" x2="150" y2="250" stroke-width="11"/><line x1="150" y1="266" x2="150" y2="292" stroke-width="13"/><line x1="110.4" y1="189.6" x2="103.3" y2="196.7" stroke-width="9"/><line x1="92" y1="208" x2="79.3" y2="220.7" stroke-width="11"/><line x1="68" y1="232" x2="49.6" y2="250.4" stroke-width="13"/><line x1="94" y1="150" x2="84" y2="150" stroke-width="9"/><line x1="68" y1="150" x2="50" y2="150" stroke-width="11"/><line x1="34" y1="150" x2="8" y2="150" stroke-width="13"/><line x1="110.4" y1="110.4" x2="103.3" y2="103.3" stroke-width="9"/><line x1="92" y1="92" x2="79.3" y2="79.3" stroke-width="11"/><line x1="68" y1="68" x2="49.6" y2="49.6" stroke-width="13"/><line x1="150" y1="94" x2="150" y2="84" stroke-width="9"/><line x1="150" y1="68" x2="150" y2="50" stroke-width="11"/><line x1="150" y1="34" x2="150" y2="8" stroke-width="13"/><line x1="189.6" y1="110.4" x2="196.7" y2="103.3" stroke-width="9"/><line x1="208" y1="92" x2="220.7" y2="79.3" stroke-width="11"/><line x1="232" y1="68" x2="250.4" y2="49.6" stroke-width="13"/></g></svg>';
 const IC = {
+  plus:'<svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>',
+  form:'<svg class="i" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>',
   chart:'<svg class="i" viewBox="0 0 24 24"><path d="M4 20h16"/><path d="M7 16V10M12 16V5M17 16v-4"/></svg>',
   dash:'<svg class="i" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="2"/><rect x="14" y="3" width="7" height="5" rx="2"/><rect x="14" y="12" width="7" height="9" rx="2"/><rect x="3" y="16" width="7" height="5" rx="2"/></svg>',
   users:'<svg class="i" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><circle cx="17" cy="9" r="2.6"/><path d="M16 14.6c2.6-.2 4.8 1.4 5.5 4.4"/></svg>',
@@ -423,10 +457,16 @@ function nav(cur){
   const btn = (id,label,ini,count) => `<button data-go="${id}" ${cur===id?'aria-current="page"':''}>${ini?`<span class="mono-ini">${ini}</span>`:IC.dash}<span class="lbl">${esc(label)}</span>${count!==undefined?`<span class="badge${count?'':' soft'}">${count}</span>`:''}</button>`;
   let h = btn("vue","Vue d'ensemble");
   h += btn("statistiques","Statistiques",null,undefined).replace(IC.dash,IC.chart);
-  h += `<div class="navsec">Grands groupes</div>`;
+  h += btn("questionnaire","Questionnaire",null,undefined).replace(IC.dash,IC.form);
+  h += `<div class="navsec">Espace Alex</div>`;
   C.filter(c=>c.big).forEach(c=>h+=btn(c.id,c.name,c.ini,c.collabs.length));
-  h += `<div class="navsec">Autres comptes</div>`;
   C.filter(c=>!c.big).forEach(c=>h+=btn(c.id,c.name,c.ini,c.collabs.length));
+  EXTRA.filter(x=>x.space==="alex").forEach(c=>h+=btn(c.id,c.name,c.ini,c.collabs.length));
+  ["amir","sandrine"].forEach(s=>{
+    h += `<div class="navsec">Espace ${SPACES[s]}</div>`;
+    h += btn("espace-"+s,"Tous ses comptes",null,EXTRA.filter(x=>x.space===s).length).replace(IC.dash,IC.users);
+    EXTRA.filter(x=>x.space===s).forEach(c=>h+=btn(c.id,c.name,c.ini,c.collabs.length));
+  });
   document.getElementById("nav").innerHTML = h;
   try { const a=document.querySelector('nav.nav [aria-current="page"]'); if (a && window.innerWidth<=900) a.scrollIntoView({block:"nearest",inline:"center"}); } catch(e){}
 }
@@ -454,7 +494,8 @@ function overview(){
   <div class="sechead"><div><h2>Grands groupes</h2><p>Les cinq comptes qui portent l'essentiel de nos missions.</p></div></div>
   <div class="grid g3">${C.filter(c=>c.big).map(accCard).join("")}</div>
   <div class="sechead"><div><h2>Autres comptes</h2><p>Comptes plus ponctuels ou en démarrage.</p></div></div>
-  <div class="grid g3">${C.filter(c=>!c.big).map(accCard).join("")}</div>`;
+  <div class="grid g3">${C.filter(c=>!c.big).map(accCard).concat(EXTRA.filter(x=>x.space==="alex").map(accCard)).join("")}</div>
+  ${["amir","sandrine"].map(s=>{ const l=EXTRA.filter(x=>x.space===s); return `<div class="sechead"><div><h2>Espace ${SPACES[s]}</h2><p>${l.length?`${plural(l.length,"compte renseigné","comptes renseignés")} via le questionnaire.`:"Aucun compte renseigné pour l'instant."}</p></div><div class="actions"><button class="btn sec" data-go="ajout-${s}">${IC.plus} Ajouter un compte</button></div></div>${l.length?`<div class="grid g3">${l.map(accCard).join("")}</div>`:""}`; }).join("")}`;
 }
 
 function card(n,title,body,extra){
@@ -535,7 +576,8 @@ function clientView(c){
     </div>
   </div>
   ${extra}
-  ${src}`;
+  ${src}
+  ${c.docId?`<div class="qfoot"><span class="byline">Compte de l'espace ${SPACES[c.space]||""}${c.updatedAt?" · mis à jour le "+new Date(c.updatedAt).toLocaleDateString("fr-FR",{day:"numeric",month:"short"}):""}</span><button class="btn sec" data-go="modif-${c.docId}">Modifier ce compte</button></div>`:""}`;
 }
 
 
@@ -607,14 +649,176 @@ function stats(){
     <section class="card"><div class="ch"><div class="tt"><h2>Technologies les plus présentes</h2></div></div><div class="cb">${hbars(techRows,["compte","comptes"])}<p class="cnote">Nombre de comptes, sur ${C.length}, dont la stack cite la technologie.</p>${table(techRows,["Technologie","Comptes"])}</div></section>
   </div>`;
 }
+
+/* ===== Espaces commerciaux et questionnaire ===== */
+const SPACES = {alex:"Alex", amir:"Amir", sandrine:"Sandrine"};
+const SPACE_OF = {alex:"d'Alex", amir:"d'Amir", sandrine:"de Sandrine"};
+const CLAUDE_URL = "https://claude.ai/artifact/N69Yf1HxvYwKuK4PZrC1vY";
+let DB = null, EXTRA = [], dbState = "loading", dbErr = "";
+const lines = s => String(s||"").split(/\n+/).map(x=>x.trim()).filter(Boolean);
+const pair = l => { const i=l.indexOf(":"); return i>0 ? [l.slice(0,i).trim(), l.slice(i+1).trim()] : [l.trim(), ""]; };
+const iniOf = n => { const w=String(n).trim().split(/\s+/); return ((w[0]||"?")[0]+((w[1]||w[0]||"")[w[1]?0:1]||"")).toUpperCase(); };
+function fromDoc(id, d){
+  const via = d.acces==="direct" ? (d.contactAcces ? "En direct · "+d.contactAcces : "En direct")
+            : d.acces==="autre" ? "Via "+(d.partenaire||"partenaire")+(d.contactAcces?" · "+d.contactAcces:"")
+            : "Via "+(PNAME[d.acces]||d.acces)+(d.contactAcces?" · "+d.contactAcces:"");
+  return {
+    id:"x-"+id, docId:id, space:d.space||"amir", name:d.nom||"Sans nom", ini:iniOf(d.nom||"?"), big:!!d.grandGroupe,
+    sector:d.secteur||"Secteur à compléter", site:d.site||"Site à compléter", via,
+    pitch:d.description||"", client:lines(d.description), contexte:lines(d.contexte),
+    watch:lines(d.preQual).length?lines(d.preQual):null,
+    depts:lines(d.departements).map(l=>{const [t,dd]=pair(l); return {k:iniOf(t), t, d:dd||""};}),
+    metiers:lines(d.metiers).map(l=>{const [t,dd]=pair(l); return [t, dd||" "];}),
+    tech:String(d.technos||"").split(/[,;\n]+/).map(x=>x.trim()).filter(Boolean),
+    contacts:lines(d.interlocuteurs).map(pair),
+    collabs:lines(d.collaborateurs),
+    pending:"Aucun collaborateur renseigné pour l'instant.",
+    src:d.siteWeb?[[d.siteWeb.replace(/^https?:\/\//,"").replace(/\/$/,""), /^https?:\/\//.test(d.siteWeb)?d.siteWeb:"https://"+d.siteWeb]]:[],
+    raw:d, updatedBy:d.auteur||"", updatedAt:d.majLe||""
+  };
+}
+const ALL = () => C.concat(EXTRA);
+const findAcc = id => ALL().find(x=>x.id===id);
+const spaceList = s => s==="alex" ? C.concat(EXTRA.filter(x=>x.space==="alex")) : EXTRA.filter(x=>x.space===s);
+
+(async () => {
+  let timer = setTimeout(()=>{ if(dbState==="loading"){ dbState="slow"; render(); } }, 10000);
+  try {
+    if (!window.claude || typeof window.claude.use!=="function") { clearTimeout(timer); dbState="off"; render(); return; }
+    DB = await window.claude.use("db");
+    if (!DB) { clearTimeout(timer); dbState="off"; render(); return; }
+    DB.collection("comptes").onSnapshot(snap => {
+      EXTRA = snap.docs.filter(d=>d.exists).map(d=>fromDoc(d.id, d.data()||{}));
+      if (!snap.metadata.fromCache) { clearTimeout(timer); dbState="ready"; }
+      else if (dbState==="loading") dbState="ready";
+      render();
+    }, err => { clearTimeout(timer); dbState="error"; dbErr = err && err.code || "unavailable"; render(); });
+  } catch(e){ clearTimeout(timer); dbState="off"; render(); }
+})();
+
+function dbNotice(){
+  if (dbState==="off") return `<div class="alert"><span class="dot"></span><div><b>Le questionnaire s'enregistre uniquement sur la version Claude de l'app.</b> Ouvre-la ici pour remplir ou modifier un compte : <a href="${CLAUDE_URL}" target="_blank" rel="noopener">version Claude</a>.</div></div>`;
+  if (dbState==="loading") return `<div class="alert info"><span class="dot"></span><div>Chargement des comptes enregistrés…</div></div>`;
+  if (dbState==="slow") return `<div class="alert"><span class="dot"></span><div>Les comptes enregistrés ne répondent pas encore. Ce qui s'affiche est peut-être incomplet.</div></div>`;
+  if (dbState==="error") return `<div class="alert rouge"><span class="dot"></span><div>Impossible de lire les comptes enregistrés pour le moment.</div></div>`;
+  return "";
+}
+
+function spaceView(s){
+  const list = spaceList(s);
+  const cards = list.length ? `<div class="grid g3">${list.map(accCard).join("")}</div>`
+    : `<div class="empty">Aucun compte pour l'instant. Clique sur « Ajouter un compte » pour remplir le questionnaire.</div>`;
+  return `
+  <div class="phead sechead"><div><h1>Espace ${SPACES[s]}</h1><p>Les comptes ${SPACE_OF[s]}. Chaque compte suit les six points du récap : le client, le contexte métier, les départements, nos collaborateurs, les métiers et la stack.</p></div>
+  <div class="actions"><button class="btn grad" data-go="ajout-${s}">${IC.plus} Ajouter un compte</button></div></div>
+  ${s==="alex"?"":dbNotice()}
+  ${cards}`;
+}
+
+function field(id,label,hint,val,type){
+  const v = esc(val||"");
+  const ctl = type==="area" ? `<textarea id="${id}" rows="4">${v}</textarea>`
+            : `<input type="text" id="${id}" value="${v}">`;
+  return `<div class="field"><label for="${id}">${label}</label>${hint?`<span class="hint">${hint}</span>`:""}${ctl}</div>`;
+}
+function formView(space, docId){
+  const acc = docId ? EXTRA.find(x=>x.docId===docId) : null;
+  const d = acc ? acc.raw : {};
+  const sp = acc ? acc.space : space;
+  const sel = (v,cur)=> v===cur?" selected":"";
+  const acces = d.acces||"direct";
+  return `
+  <div class="phead"><h1>${acc?"Modifier le compte "+esc(d.nom||""):"Ajouter un compte"}</h1><p>Remplis ce que tu sais, le reste peut rester vide. Une ligne par élément dans les listes.</p></div>
+  ${dbNotice()}
+  <form id="qform" class="card" novalidate data-doc="${docId||""}">
+    <div class="cb qf">
+      <div class="field"><span class="lbl">Espace</span><div class="seg" role="group" aria-label="Espace">${Object.keys(SPACES).map(k=>`<button type="button" data-space="${k}" aria-pressed="${k===sp}">${SPACES[k]}</button>`).join("")}</div></div>
+      <h3>Le client</h3>
+      <div class="qgrid">
+        ${field("q-nom","Nom du client <span class='req'>*</span>","",d.nom)}
+        ${field("q-secteur","Secteur","Exemple : Télécommunications",d.secteur)}
+        ${field("q-site","Site ou localisation","Exemple : Sophia Antipolis",d.site)}
+        ${field("q-web","Site officiel","Exemple : www.client.fr",d.siteWeb)}
+      </div>
+      <label class="check"><input type="checkbox" id="q-big"${d.grandGroupe?" checked":""}> Grand groupe</label>
+      ${field("q-desc","01 · Le client","Une ou deux phrases : ce que fait l'entreprise.",d.description,"area")}
+      ${field("q-ctx","02 · Contexte métier","Comment on travaille avec eux, sur quels sujets.",d.contexte,"area")}
+      ${field("q-dep","03 · Grands départements","Une ligne par département. Format : Nom : description",d.departements,"area")}
+      ${field("q-col","04 · Nos collaborateurs","Une ligne par personne. Exemple : Prénom NOM",d.collaborateurs,"area")}
+      ${field("q-met","05 · Types de métiers","Une ligne par métier. Format : Métier : détail",d.metiers,"area")}
+      ${field("q-tech","06 · Technologies et outils","Séparées par des virgules. Exemple : Java, Angular, Kubernetes",d.technos)}
+      <h3>Accès et contacts</h3>
+      <div class="qgrid">
+        <div class="field"><label for="q-acces">Voie d'accès</label><select id="q-acces">
+          <option value="direct"${sel("direct",acces)}>En direct</option><option value="cgi"${sel("cgi",acces)}>Via CGI</option><option value="atos"${sel("atos",acces)}>Via Atos</option><option value="softeam"${sel("softeam",acces)}>Via Softeam</option><option value="autre"${sel("autre",acces)}>Via un autre partenaire</option></select></div>
+        ${field("q-part","Nom du partenaire","Seulement pour « autre partenaire »",d.partenaire)}
+        ${field("q-cacc","Contact ou département d'accès","Exemple : Samir Zennani, ou DTOF",d.contactAcces)}
+      </div>
+      ${field("q-int","Interlocuteurs","Une ligne par personne. Format : Nom : rôle",d.interlocuteurs,"area")}
+      ${field("q-pq","À retenir en préqual","Une ligne par point. Facultatif.",d.preQual,"area")}
+      <div class="qfoot"><span id="q-msg" class="hint" role="status"></span>
+        <div class="actions">${acc?`<button type="button" class="btn danger" id="q-del">Supprimer</button>`:""}<button type="button" class="btn sec" data-go="espace-${sp}">Annuler</button><button type="submit" class="btn grad" id="q-save">${acc?"Enregistrer les modifications":"Enregistrer le compte"}</button></div></div>
+    </div>
+  </form>`;
+}
+let saving = false;
+document.addEventListener("click", e => {
+  const s = e.target.closest("#qform [data-space]");
+  if (s){ document.querySelectorAll("#qform [data-space]").forEach(b=>b.setAttribute("aria-pressed", b===s?"true":"false")); return; }
+  const del = e.target.closest("#q-del");
+  if (del){
+    const f = document.getElementById("qform"); const id = f.getAttribute("data-doc");
+    if (del.dataset.armed!=="1"){ del.dataset.armed="1"; del.textContent="Confirmer la suppression"; return; }
+    if (!DB || saving) return; saving=true;
+    const acc = EXTRA.find(x=>x.docId===id); const sp = acc?acc.space:"amir";
+    DB.collection("comptes").doc(id).delete().then(()=>{ saving=false; location.hash="espace-"+sp; })
+      .catch(err=>{ saving=false; const m=document.getElementById("q-msg"); if(m) m.textContent="Suppression impossible ("+(err&&err.code||"erreur")+")."; });
+  }
+});
+document.addEventListener("submit", async e => {
+  if (e.target.id!=="qform") return;
+  e.preventDefault();
+  const msg = document.getElementById("q-msg");
+  const val = id => (document.getElementById(id).value||"").trim();
+  const nom = val("q-nom");
+  if (!nom){ msg.textContent="À compléter : nom du client."; document.getElementById("q-nom").focus(); return; }
+  if (!DB){ msg.textContent="Enregistrement indisponible ici : ouvre la version Claude de l'app."; return; }
+  if (saving) return;
+  const space = (document.querySelector('#qform [data-space][aria-pressed="true"]')||{}).getAttribute ? document.querySelector('#qform [data-space][aria-pressed="true"]').getAttribute("data-space") : "amir";
+  const body = { space, nom, secteur:val("q-secteur"), site:val("q-site"), siteWeb:val("q-web"), grandGroupe:document.getElementById("q-big").checked,
+    description:val("q-desc"), contexte:val("q-ctx"), departements:val("q-dep"), collaborateurs:val("q-col"), metiers:val("q-met"), technos:val("q-tech"),
+    acces:document.getElementById("q-acces").value, partenaire:val("q-part"), contactAcces:val("q-cacc"), interlocuteurs:val("q-int"), preQual:val("q-pq"),
+    majLe:new Date().toISOString() };
+  let id = e.target.getAttribute("data-doc");
+  if (!id) id = (nom.toLowerCase().normalize("NFD").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,40)||"compte")+"-"+Math.random().toString(36).slice(2,7);
+  saving = true; document.getElementById("q-save").disabled = true; msg.textContent="Enregistrement…";
+  try { await DB.collection("comptes").doc(id).set(body); saving=false; location.hash = "x-"+id; }
+  catch(err){ saving=false; const b=document.getElementById("q-save"); if(b) b.disabled=false;
+    msg.textContent = (err&&err.code)==="invalid_argument" ? "Enregistrement refusé : il faut un accès Contributeur ou plus à l'app. Demande-le à Alex." : "Enregistrement impossible pour le moment, réessaie."; }
+});
+
 function render(){
   const id = (location.hash||"").slice(1);
-  const c = C.find(x=>x.id===id);
+  const c = findAcc(id);
   const st = id==="statistiques";
-  const cur = c ? c.id : st ? "statistiques" : "vue";
+  let m;
+  const sp = (m=id.match(/^espace-(alex|amir|sandrine)$/)) ? m[1] : null;
+  const add = (m=id.match(/^ajout-(alex|amir|sandrine)$/)) ? m[1] : (id==="questionnaire" ? "amir" : null);
+  const mod = (m=id.match(/^modif-(.+)$/)) ? m[1] : null;
+  const cur = c ? c.id : st ? "statistiques" : sp ? "espace-"+sp : (add||mod) ? "questionnaire" : "vue";
   nav(cur);
-  document.getElementById("crumb").innerHTML = c ? `<span>Comptes clients</span><span>›</span><b>${esc(c.name)}</b>` : st ? `<span>Comptes clients</span><span>›</span><b>Statistiques</b>` : `<b>Vue d'ensemble</b>`;
-  document.getElementById("main").innerHTML = c ? clientView(c) : st ? stats() : overview();
+  if ((add||mod) && document.getElementById("qform") && document.getElementById("qform").dataset.route===id) return;
+  const crumb = t => `<span>Comptes clients</span><span>›</span><b>${esc(t)}</b>`;
+  document.getElementById("crumb").innerHTML = c ? crumb(c.name) : st ? crumb("Statistiques") : sp ? crumb("Espace "+SPACES[sp]) : add ? crumb("Questionnaire") : mod ? crumb("Modifier un compte") : `<b>Vue d'ensemble</b>`;
+  let html;
+  if (c) html = clientView(c);
+  else if (st) html = stats();
+  else if (sp) html = spaceView(sp);
+  else if (add) html = formView(add, null);
+  else if (mod) html = EXTRA.find(x=>x.docId===mod) ? formView(null, mod) : (dbState==="loading"||dbState==="slow" ? dbNotice() : `<div class="empty">Ce compte n'existe plus.</div>`);
+  else html = overview();
+  document.getElementById("main").innerHTML = html;
+  const f = document.getElementById("qform"); if (f) f.dataset.route = id;
   try { document.title = c ? c.name+" · Comptes clients Inov Team" : "Comptes clients Inov Team"; } catch(e){}
 }
 document.addEventListener("click", e => {
