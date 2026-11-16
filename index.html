@@ -229,6 +229,34 @@ img{max-width:100%}
 }
 @media (min-width:1600px){main{max-width:1440px}}
 @media (max-width:640px){.g4{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.kpi{padding:14px;gap:6px}.kpi b{font-size:26px}.kpi .ki{width:28px;height:28px}.kpi .kt{font-size:12px}}
+
+/* Statistiques */
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:1100px){.g2{grid-template-columns:minmax(0,1fr)}}
+.phead h1{font-size:26px}.phead p{color:var(--muted);margin-top:4px;max-width:70ch}
+.meter{height:8px;border-radius:999px;background:var(--accent-soft);overflow:hidden;margin-top:2px}
+.meter > i{display:block;height:100%;border-radius:0 4px 4px 0;background:var(--accent)}
+.hb{display:flex;flex-direction:column;gap:10px}
+.hr{display:grid;grid-template-columns:minmax(96px,150px) minmax(0,1fr) 44px;align-items:center;gap:12px;position:relative;padding:3px 0;border-radius:8px;cursor:default}
+.hr .hl{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hr .ht{height:18px;position:relative}
+.hr .ht::before{content:"";position:absolute;inset:8px 0 auto 0;height:1px;background:var(--line)}
+.hr .hf{position:absolute;left:0;top:0;bottom:0;background:var(--accent);border-radius:0 4px 4px 0;min-width:4px}
+.hr .hv{font-size:13px;font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.hr:hover .hf,.hr:focus-visible .hf{background:var(--accent-2)}
+.hr:hover{background:var(--sunk)}
+.tip{position:fixed;z-index:70;pointer-events:none;background:var(--fg);color:var(--bg);padding:8px 12px;border-radius:10px;font-size:12.5px;font-weight:600;box-shadow:var(--shadow-pop);max-width:260px;display:none}
+.tip span{display:block;font-weight:500;opacity:.8}
+.cnote{font-size:12px;color:var(--muted)}
+details.tv summary{cursor:pointer;font-size:12.5px;font-weight:600;color:var(--accent)}
+details.tv table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+details.tv th{text-align:left;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);padding:6px 8px;border-bottom:1px solid var(--line)}
+details.tv td{padding:6px 8px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+@media (max-width:480px){.hr{grid-template-columns:96px minmax(0,1fr) 36px;gap:8px}}
+/* Cartes comptes : chiffres jamais coupés */
+.acc .an{flex:none;white-space:nowrap}
+.acc .an b{font-variant-numeric:tabular-nums}
+.acc .alogo{flex:0 1 auto;min-width:0}
 </style>
 </head>
 <body>
@@ -247,6 +275,7 @@ img{max-width:100%}
 <script>
 const SUN = '<svg class="sun" viewBox="0 0 300 300" aria-hidden="true"><g stroke="#fff" stroke-linecap="round"><line x1="206" y1="150" x2="216" y2="150" stroke-width="9"/><line x1="232" y1="150" x2="250" y2="150" stroke-width="11"/><line x1="266" y1="150" x2="292" y2="150" stroke-width="13"/><line x1="189.6" y1="189.6" x2="196.7" y2="196.7" stroke-width="9"/><line x1="208" y1="208" x2="220.7" y2="220.7" stroke-width="11"/><line x1="232" y1="232" x2="250.4" y2="250.4" stroke-width="13"/><line x1="150" y1="206" x2="150" y2="216" stroke-width="9"/><line x1="150" y1="232" x2="150" y2="250" stroke-width="11"/><line x1="150" y1="266" x2="150" y2="292" stroke-width="13"/><line x1="110.4" y1="189.6" x2="103.3" y2="196.7" stroke-width="9"/><line x1="92" y1="208" x2="79.3" y2="220.7" stroke-width="11"/><line x1="68" y1="232" x2="49.6" y2="250.4" stroke-width="13"/><line x1="94" y1="150" x2="84" y2="150" stroke-width="9"/><line x1="68" y1="150" x2="50" y2="150" stroke-width="11"/><line x1="34" y1="150" x2="8" y2="150" stroke-width="13"/><line x1="110.4" y1="110.4" x2="103.3" y2="103.3" stroke-width="9"/><line x1="92" y1="92" x2="79.3" y2="79.3" stroke-width="11"/><line x1="68" y1="68" x2="49.6" y2="49.6" stroke-width="13"/><line x1="150" y1="94" x2="150" y2="84" stroke-width="9"/><line x1="150" y1="68" x2="150" y2="50" stroke-width="11"/><line x1="150" y1="34" x2="150" y2="8" stroke-width="13"/><line x1="189.6" y1="110.4" x2="196.7" y2="103.3" stroke-width="9"/><line x1="208" y1="92" x2="220.7" y2="79.3" stroke-width="11"/><line x1="232" y1="68" x2="250.4" y2="49.6" stroke-width="13"/></g></svg>';
 const IC = {
+  chart:'<svg class="i" viewBox="0 0 24 24"><path d="M4 20h16"/><path d="M7 16V10M12 16V5M17 16v-4"/></svg>',
   dash:'<svg class="i" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="2"/><rect x="14" y="3" width="7" height="5" rx="2"/><rect x="14" y="12" width="7" height="9" rx="2"/><rect x="3" y="16" width="7" height="5" rx="2"/></svg>',
   users:'<svg class="i" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><circle cx="17" cy="9" r="2.6"/><path d="M16 14.6c2.6-.2 4.8 1.4 5.5 4.4"/></svg>',
   pin:'<svg class="i" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
@@ -365,6 +394,7 @@ const logoBig = c => LOGOS[c.id] ? `<div><span class="lplate${SQ.includes(c.id)?
 function nav(cur){
   const btn = (id,label,ini,count) => `<button data-go="${id}" ${cur===id?'aria-current="page"':''}>${ini?`<span class="mono-ini">${ini}</span>`:IC.dash}<span class="lbl">${esc(label)}</span>${count!==undefined?`<span class="badge${count?'':' soft'}">${count}</span>`:''}</button>`;
   let h = btn("vue","Vue d'ensemble");
+  h += btn("statistiques","Statistiques",null,undefined).replace(IC.dash,IC.chart);
   h += `<div class="navsec">Grands groupes</div>`;
   C.filter(c=>c.big).forEach(c=>h+=btn(c.id,c.name,c.ini,c.collabs.length));
   h += `<div class="navsec">Autres comptes</div>`;
@@ -480,13 +510,64 @@ function clientView(c){
   ${src}`;
 }
 
+
+function famille(m){
+  const s=m.toLowerCase();
+  if (/qa/.test(s)) return "Qualité / QA";
+  if (/devops|sre/.test(s)) return "DevOps / SRE";
+  if (/product|owner|customer|chef de projet|pmo/.test(s)) return "Produit et projet";
+  if (/admin|sql server/.test(s)) return "Infra et données";
+  return "Développement";
+}
+function hbars(rows, unit, total){
+  const max=Math.max(...rows.map(r=>r[1]));
+  return `<div class="hb">${rows.map(r=>{
+    const pct = total ? Math.round(r[1]/total*100) : null;
+    const tip = `${esc(r[0])}<span>${r[1]} ${r[1]>1?unit[1]:unit[0]}${pct!==null?" · "+pct+" %":""}${r[2]?" · "+esc(r[2]):""}</span>`;
+    return `<div class="hr" tabindex="0" data-tip="${tip.replace(/"/g,"&quot;")}" aria-label="${esc(r[0])} : ${r[1]} ${r[1]>1?unit[1]:unit[0]}"><span class="hl">${esc(r[0])}</span><span class="ht"><span class="hf" style="width:${r[1]/max*100}%"></span></span><span class="hv">${r[1]}</span></div>`;}).join("")}</div>`;
+}
+function table(rows, head){
+  return `<details class="tv"><summary>Voir le tableau</summary><table><thead><tr><th>${head[0]}</th><th>${head[1]}</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r[0])}</td><td>${r[1]}</td></tr>`).join("")}</tbody></table></details>`;
+}
+function stats(){
+  const withC = C.filter(c=>c.collabs.length);
+  const parClient = withC.map(c=>[c.name,c.collabs.length,c.big?"Grand groupe":"Autre compte"]).sort((a,b)=>b[1]-a[1]);
+  const viaKey = c => /^Via CGI/.test(c.via)?"CGI":/^Via Atos/.test(c.via)?"Atos":/^Via Softeam/.test(c.via)?"Softeam":"En direct";
+  const via = {}; withC.forEach(c=>{ const k=viaKey(c); via[k]=(via[k]||0)+c.collabs.length; });
+  const viaRows = Object.entries(via).sort((a,b)=>b[1]-a[1]).map(([k,v])=>[k,v, k==="En direct"?withC.filter(c=>viaKey(c)==="En direct").map(c=>c.name).join(", "):C.filter(c=>viaKey(c)===k).map(c=>c.name).join(", ")]);
+  const inter = total - (via["En direct"]||0);
+  const fam = {}; C.forEach(c=>c.metiers.forEach(m=>{ const f=famille(m[0]); fam[f]=(fam[f]||0)+1; }));
+  const famRows = Object.entries(fam).sort((a,b)=>b[1]-a[1]);
+  const nbMetiers = famRows.reduce((s,r)=>s+r[1],0);
+  const techs = ["Java","Angular","Kubernetes","Kafka","GCP","Helm","React","Jenkins","Azure","SAFe"];
+  const has = (c,t) => c.tech.some(x=> t==="Java" ? /^(Java|Spring|Spring Boot)$/.test(x) : t==="SAFe" ? /SAFe/.test(x) : x===t);
+  const techRows = techs.map(t=>[t,C.filter(c=>has(c,t)).length, C.filter(c=>has(c,t)).map(c=>c.name).join(", ")]).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const top = parClient[0];
+  const bigPct = Math.round(bigTotal/total*100);
+  const tile = (label,val,foot,pct) => `<div class="kpi"><div class="kt">${label}</div><b>${val}</b>${pct!==undefined?`<div class="meter" aria-hidden="true"><i style="width:${pct}%"></i></div>`:""}<div class="kf">${foot}</div></div>`;
+  return `
+  <div class="phead"><h1>Statistiques</h1><p>Huit indicateurs calculés à partir des comptes de cette app : où sont nos consultants, par quel canal, sur quels métiers et quelles technologies.</p></div>
+  <div class="grid g4">
+    ${tile("Consultants en mission", total, `répartis chez ${withC.length} clients`)}
+    ${tile("Part des 5 grands groupes", bigPct+" %", `${bigTotal} consultants sur ${total}`, bigPct)}
+    ${tile("Placés via un intermédiaire", Math.round(inter/total*100)+" %", `${inter} consultants via CGI, Atos ou Softeam`, Math.round(inter/total*100))}
+    ${tile("Premier client", top[0], `${top[1]} consultants, soit ${Math.round(top[1]/total*100)} % du total`)}
+  </div>
+  <div class="grid g2">
+    <section class="card"><div class="ch"><div class="tt"><h2>Consultants par client</h2></div></div><div class="cb">${hbars(parClient,["consultant","consultants"],total)}${table(parClient,["Client","Consultants"])}</div></section>
+    <section class="card"><div class="ch"><div class="tt"><h2>Consultants par voie d'accès</h2></div></div><div class="cb">${hbars(viaRows,["consultant","consultants"],total)}<p class="cnote">CGI pour Amadeus, Atos pour Air France, Softeam pour Docaposte. En direct : Orange, PRO BTP, EPS et Kappa.</p>${table(viaRows,["Voie d'accès","Consultants"])}</div></section>
+    <section class="card"><div class="ch"><div class="tt"><h2>Métiers recherchés par famille</h2></div></div><div class="cb">${hbars(famRows,["métier","métiers"],nbMetiers)}<p class="cnote">${nbMetiers} métiers recensés sur les ${C.length} comptes, Arkopharma inclus.</p>${table(famRows,["Famille","Métiers"])}</div></section>
+    <section class="card"><div class="ch"><div class="tt"><h2>Technologies les plus présentes</h2></div></div><div class="cb">${hbars(techRows,["compte","comptes"])}<p class="cnote">Nombre de comptes, sur ${C.length}, dont la stack cite la technologie.</p>${table(techRows,["Technologie","Comptes"])}</div></section>
+  </div>`;
+}
 function render(){
   const id = (location.hash||"").slice(1);
   const c = C.find(x=>x.id===id);
-  const cur = c ? c.id : "vue";
+  const st = id==="statistiques";
+  const cur = c ? c.id : st ? "statistiques" : "vue";
   nav(cur);
-  document.getElementById("crumb").innerHTML = c ? `<span>Comptes clients</span><span>›</span><b>${esc(c.name)}</b>` : `<b>Vue d'ensemble</b>`;
-  document.getElementById("main").innerHTML = c ? clientView(c) : overview();
+  document.getElementById("crumb").innerHTML = c ? `<span>Comptes clients</span><span>›</span><b>${esc(c.name)}</b>` : st ? `<span>Comptes clients</span><span>›</span><b>Statistiques</b>` : `<b>Vue d'ensemble</b>`;
+  document.getElementById("main").innerHTML = c ? clientView(c) : st ? stats() : overview();
   try { document.title = c ? c.name+" · Comptes clients Inov Team" : "Comptes clients Inov Team"; } catch(e){}
 }
 document.addEventListener("click", e => {
@@ -498,6 +579,11 @@ document.addEventListener("click", e => {
   window.scrollTo(0,0);
 });
 window.addEventListener("hashchange", render);
+const TIP=document.createElement("div"); TIP.className="tip"; document.body.appendChild(TIP);
+function showTip(el,x,y){ TIP.innerHTML=el.getAttribute("data-tip"); TIP.style.display="block"; const w=TIP.offsetWidth; TIP.style.left=Math.min(x+14, window.innerWidth-w-8)+"px"; TIP.style.top=(y+14)+"px"; }
+document.addEventListener("mousemove", e=>{ const el=e.target.closest("[data-tip]"); if(el) showTip(el,e.clientX,e.clientY); else TIP.style.display="none"; });
+document.addEventListener("focusin", e=>{ const el=e.target.closest("[data-tip]"); if(el){ const r=el.getBoundingClientRect(); showTip(el,r.left+r.width/2,r.bottom); } });
+document.addEventListener("focusout", ()=>{ TIP.style.display="none"; });
 render();
 </script>
 </body>
