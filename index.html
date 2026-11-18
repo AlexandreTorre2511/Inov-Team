@@ -312,6 +312,53 @@ input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px}
 .alert.rouge{background:#FDE6E9}.alert.rouge .dot{background:#D0263C}
 .alert a{font-weight:700}
 .byline{font-size:12px;color:var(--muted)}
+
+/* Suivi collaborateurs */
+.btn.sm{padding:6px 12px;font-size:13px;border-radius:9px}
+.small{font-size:12px}
+.kpi.warn .ki{background:#FFF1DA;color:#B26700}.kpi.warn b{color:#B26700}
+.kpi b.kpi-s{font-size:26px}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+.tablewrap th{text-align:left;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);padding:12px 16px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tablewrap td{padding:10px 16px;border-bottom:1px solid var(--line);vertical-align:middle;white-space:nowrap}
+.tablewrap tbody tr:last-child td{border-bottom:0}
+tr.click{cursor:pointer} tr.click:hover td{background:var(--sunk)}
+.num-c{font-variant-numeric:tabular-nums;font-weight:700}
+.cal{padding:0 12px 4px}
+.cal-h{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;padding:12px 0 6px}
+.cal-h span{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);text-align:center}
+.cal-g{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.cd{min-height:104px;border:1px solid var(--line);border-radius:10px;padding:6px;display:flex;flex-direction:column;gap:4px;background:var(--surface);min-width:0}
+.cd.we{background:var(--sunk)}
+.cd.empty-d{border:0;background:transparent}
+.cd .dn{font-family:var(--font-mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.cd.today{border-color:transparent;box-shadow:0 0 0 2px var(--accent) inset}
+.cd.today .dn{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--grad);color:#fff;font-weight:600}
+.ev{display:block;width:100%;text-align:left;border:0;border-radius:6px;padding:3px 6px;font-size:11.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-left:3px solid currentColor}
+.ev .mono{font-size:10.5px;opacity:.85}
+.st-todo{background:var(--sunk);color:var(--muted)}
+.st-plan{background:var(--accent-soft);color:var(--accent)}
+.st-done{background:var(--ok-soft);color:var(--ok)}
+.st-late{background:var(--warn-soft);color:var(--warn)}
+.ev.late,.pill.late{background:#FDE6E9;color:#D0263C}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:12px;color:var(--muted);align-items:center}
+.legend i{display:inline-block;width:14px;height:10px;border-radius:3px;margin-right:6px;vertical-align:middle}
+.legend i.st-todo{background:var(--line-2)}.legend i.st-plan{background:var(--accent)}.legend i.st-done{background:var(--ok)}.legend i.st-late{background:var(--warn)}.legend i.st-overdue{background:#D0263C}
+.agenda{display:none;flex-direction:column;padding:4px 16px}
+.ag-i{display:grid;grid-template-columns:70px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border:0;border-bottom:1px solid var(--line);background:transparent;text-align:left}
+.ag-i:last-child{border-bottom:0}
+.ag-d{display:flex;flex-direction:column;font-weight:700;font-size:13px}.ag-d .mono{font-weight:500;color:var(--muted);font-size:12px}
+.ag-n b{display:block;font-size:13.5px}.ag-n span{font-size:12px;color:var(--muted)}
+@media (max-width:760px){.cal{display:none}.agenda{display:flex}}
+.overlay{position:fixed;inset:0;background:rgba(10,13,28,.5);backdrop-filter:blur(3px);display:grid;place-items:center;padding:16px;z-index:50}
+.modal{background:var(--surface);border-radius:18px;box-shadow:var(--shadow-pop);width:min(580px,100%);max-height:calc(100% - 32px);overflow:auto;display:flex;flex-direction:column;border:1px solid var(--line);margin:0}
+.modal .mh{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.modal .mb{padding:18px 22px;display:flex;flex-direction:column;gap:16px}
+.modal .mf{padding:14px 22px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;align-items:center;gap:8px;flex-wrap:wrap;background:var(--bg);border-radius:0 0 18px 18px}
+.modal .mf .hint{margin-right:auto}
+input[type=date]{font:inherit;color:inherit;background:var(--surface);border:1px solid var(--line-2);border-radius:10px;padding:8px 12px;width:100%}
+.modal .person,.tablewrap .person{border:0;background:none;padding:0}
 </style>
 </head>
 <body>
@@ -322,14 +369,17 @@ input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px}
     <div class="side-foot"><span class="av h4">AT</span><div><b>Alexandre TORRE</b><span>Business Manager · Inov Team</span></div></div>
   </aside>
   <div class="work">
-    <div class="top"><div class="crumb" id="crumb"></div><div class="date">lun. 16 nov.</div></div>
+    <div class="top"><div class="crumb" id="crumb"></div><div class="date" id="topdate"></div></div>
     <main id="main"></main>
+    <div id="modal-root"></div>
   </div>
 </div>
 
 <script>
 const SUN = '<svg class="sun" viewBox="0 0 300 300" aria-hidden="true"><g stroke="#fff" stroke-linecap="round"><line x1="206" y1="150" x2="216" y2="150" stroke-width="9"/><line x1="232" y1="150" x2="250" y2="150" stroke-width="11"/><line x1="266" y1="150" x2="292" y2="150" stroke-width="13"/><line x1="189.6" y1="189.6" x2="196.7" y2="196.7" stroke-width="9"/><line x1="208" y1="208" x2="220.7" y2="220.7" stroke-width="11"/><line x1="232" y1="232" x2="250.4" y2="250.4" stroke-width="13"/><line x1="150" y1="206" x2="150" y2="216" stroke-width="9"/><line x1="150" y1="232" x2="150" y2="250" stroke-width="11"/><line x1="150" y1="266" x2="150" y2="292" stroke-width="13"/><line x1="110.4" y1="189.6" x2="103.3" y2="196.7" stroke-width="9"/><line x1="92" y1="208" x2="79.3" y2="220.7" stroke-width="11"/><line x1="68" y1="232" x2="49.6" y2="250.4" stroke-width="13"/><line x1="94" y1="150" x2="84" y2="150" stroke-width="9"/><line x1="68" y1="150" x2="50" y2="150" stroke-width="11"/><line x1="34" y1="150" x2="8" y2="150" stroke-width="13"/><line x1="110.4" y1="110.4" x2="103.3" y2="103.3" stroke-width="9"/><line x1="92" y1="92" x2="79.3" y2="79.3" stroke-width="11"/><line x1="68" y1="68" x2="49.6" y2="49.6" stroke-width="13"/><line x1="150" y1="94" x2="150" y2="84" stroke-width="9"/><line x1="150" y1="68" x2="150" y2="50" stroke-width="11"/><line x1="150" y1="34" x2="150" y2="8" stroke-width="13"/><line x1="189.6" y1="110.4" x2="196.7" y2="103.3" stroke-width="9"/><line x1="208" y1="92" x2="220.7" y2="79.3" stroke-width="11"/><line x1="232" y1="68" x2="250.4" y2="49.6" stroke-width="13"/></g></svg>';
 const IC = {
+  cal:'<svg class="i" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="16.5" rx="3"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>',
+  clock:'<svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
   plus:'<svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>',
   form:'<svg class="i" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>',
   chart:'<svg class="i" viewBox="0 0 24 24"><path d="M4 20h16"/><path d="M7 16V10M12 16V5M17 16v-4"/></svg>',
@@ -458,6 +508,7 @@ function nav(cur){
   let h = btn("vue","Vue d'ensemble");
   h += btn("statistiques","Statistiques",null,undefined).replace(IC.dash,IC.chart);
   h += btn("questionnaire","Questionnaire",null,undefined).replace(IC.dash,IC.form);
+  h += btn("suivi","Suivi collabs",null,undefined).replace(IC.dash,IC.cal);
   h += `<div class="navsec">Espace Alex</div>`;
   C.filter(c=>c.big).forEach(c=>h+=btn(c.id,c.name,c.ini,c.collabs.length));
   C.filter(c=>!c.big).forEach(c=>h+=btn(c.id,c.name,c.ini,c.collabs.length));
@@ -797,22 +848,164 @@ document.addEventListener("submit", async e => {
     msg.textContent = (err&&err.code)==="invalid_argument" ? "Enregistrement refusé : il faut un accès Contributeur ou plus à l'app. Demande-le à Alex." : "Enregistrement impossible pour le moment, réessaie."; }
 });
 
+const PLAN_DATA = {"plan": [["2026-11-27", "11:30", "DJERADA Lyes", "AMADEUS", "Agence", "INOV TEAM LABS"], ["2026-12-01", "09:30", "ROBIN Antoine", "ORANGE", "Site client Orange", "INOV TEAM LABS"], ["2026-12-01", "10:30", "MERLET Gregory", "ORANGE", "Site client Orange", "INOV TEAM"], ["2026-12-01", "11:30", "ALGRET Romain", "ORANGE", "Site client Orange", "INOV TEAM LABS"], ["2026-12-04", "09:30", "COCHARD Damien", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2026-12-04", "10:30", "COURBIERE Yann", "DOCAPOSTE", "Agence", "INOV TEAM"], ["2026-12-04", "11:30", "TINDEL Jean", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2026-12-08", "10:00", "PROVENCAL Jean-Claude", "KAPPA ENGINEERING", "Site client Kappa Engineering", "INOV TEAM"], ["2026-12-08", "14:00", "BARBOSA Cindy", "PRO BTP", "Site client PRO BTP", "INOV TEAM LABS"], ["2026-12-11", "09:30", "BOUTON Sébastien", "DOCAPOSTE", "Agence", "INOV TEAM"], ["2026-12-11", "10:30", "MOUZONG Andreas", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2026-12-11", "11:30", "DEMOULIN Florian", "EPS", "Agence", "INOV TEAM"], ["2026-12-18", "09:30", "MARTINEZ Brice", "AMADEUS", "Agence", "INOV TEAM / INOV TEAM LABS"], ["2026-12-18", "10:30", "BENNOUR Salah", "AMADEUS", "Agence", "INOV TEAM"], ["2026-12-18", "11:30", "DJERADA Lyes", "AMADEUS", "Agence", "INOV TEAM LABS"], ["2027-01-05", "09:30", "ROBIN Antoine", "ORANGE", "Site client Orange", "INOV TEAM LABS"], ["2027-01-05", "10:30", "MERLET Gregory", "ORANGE", "Site client Orange", "INOV TEAM"], ["2027-01-05", "11:30", "ALGRET Romain", "ORANGE", "Site client Orange", "INOV TEAM LABS"], ["2027-01-08", "09:30", "COCHARD Damien", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-01-08", "10:30", "COURBIERE Yann", "DOCAPOSTE", "Agence", "INOV TEAM"], ["2027-01-08", "11:30", "TINDEL Jean", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-01-12", "10:00", "PROVENCAL Jean-Claude", "KAPPA ENGINEERING", "Site client Kappa Engineering", "INOV TEAM"], ["2027-01-12", "14:00", "BARBOSA Cindy", "PRO BTP", "Site client PRO BTP", "INOV TEAM LABS"], ["2027-01-15", "09:30", "BOUTON Sébastien", "DOCAPOSTE", "Agence", "INOV TEAM"], ["2027-01-15", "10:30", "MOUZONG Andreas", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-01-15", "11:30", "DEMOULIN Florian", "EPS", "Agence", "INOV TEAM"], ["2027-01-22", "09:30", "MARTINEZ Brice", "AMADEUS", "Agence", "INOV TEAM / INOV TEAM LABS"], ["2027-01-22", "10:30", "BENNOUR Salah", "AMADEUS", "Agence", "INOV TEAM"], ["2027-01-22", "11:30", "DJERADA Lyes", "AMADEUS", "Agence", "INOV TEAM LABS"], ["2027-02-02", "09:30", "ROBIN Antoine", "ORANGE", "Site client Orange", "INOV TEAM LABS"], ["2027-02-02", "10:30", "MERLET Gregory", "ORANGE", "Site client Orange", "INOV TEAM"], ["2027-02-02", "11:30", "ALGRET Romain", "ORANGE", "Site client Orange", "INOV TEAM LABS"], ["2027-02-05", "09:30", "COCHARD Damien", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-02-05", "10:30", "COURBIERE Yann", "DOCAPOSTE", "Agence", "INOV TEAM"], ["2027-02-05", "11:30", "TINDEL Jean", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-02-09", "10:00", "PROVENCAL Jean-Claude", "KAPPA ENGINEERING", "Site client Kappa Engineering", "INOV TEAM"], ["2027-02-09", "14:00", "BARBOSA Cindy", "PRO BTP", "Site client PRO BTP", "INOV TEAM LABS"], ["2027-02-12", "09:30", "BOUTON Sébastien", "DOCAPOSTE", "Agence", "INOV TEAM"], ["2027-02-12", "10:30", "MOUZONG Andreas", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-02-12", "11:30", "DEMOULIN Florian", "EPS", "Agence", "INOV TEAM"], ["2027-02-19", "09:30", "MARTINEZ Brice", "AMADEUS", "Agence", "INOV TEAM / INOV TEAM LABS"], ["2027-02-19", "10:30", "BENNOUR Salah", "AMADEUS", "Agence", "INOV TEAM"], ["2027-02-19", "11:30", "DJERADA Lyes", "AMADEUS", "Agence", "INOV TEAM LABS"], ["2027-03-02", "09:30", "ROBIN Antoine", "ORANGE", "Site client Orange", "INOV TEAM LABS"], ["2027-03-02", "10:30", "MERLET Gregory", "ORANGE", "Site client Orange", "INOV TEAM"], ["2027-03-02", "11:30", "ALGRET Romain", "ORANGE", "Site client Orange", "INOV TEAM LABS"], ["2027-03-05", "09:30", "COCHARD Damien", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-03-05", "10:30", "COURBIERE Yann", "DOCAPOSTE", "Agence", "INOV TEAM"], ["2027-03-05", "11:30", "TINDEL Jean", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-03-09", "10:00", "PROVENCAL Jean-Claude", "KAPPA ENGINEERING", "Site client Kappa Engineering", "INOV TEAM"], ["2027-03-09", "14:00", "BARBOSA Cindy", "PRO BTP", "Site client PRO BTP", "INOV TEAM LABS"], ["2027-03-12", "09:30", "BOUTON Sébastien", "DOCAPOSTE", "Agence", "INOV TEAM"], ["2027-03-12", "10:30", "MOUZONG Andreas", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-03-12", "11:30", "DEMOULIN Florian", "EPS", "Agence", "INOV TEAM"], ["2027-03-19", "09:30", "MARTINEZ Brice", "AMADEUS", "Agence", "INOV TEAM / INOV TEAM LABS"], ["2027-03-19", "10:30", "BENNOUR Salah", "AMADEUS", "Agence", "INOV TEAM"], ["2027-03-19", "11:30", "DJERADA Lyes", "AMADEUS", "Agence", "INOV TEAM LABS"], ["2027-04-02", "09:30", "COCHARD Damien", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-04-02", "10:30", "COURBIERE Yann", "DOCAPOSTE", "Agence", "INOV TEAM"], ["2027-04-02", "11:30", "TINDEL Jean", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-04-06", "09:30", "ROBIN Antoine", "ORANGE", "Site client Orange", "INOV TEAM LABS"], ["2027-04-06", "10:30", "MERLET Gregory", "ORANGE", "Site client Orange", "INOV TEAM"], ["2027-04-06", "11:30", "ALGRET Romain", "ORANGE", "Site client Orange", "INOV TEAM LABS"], ["2027-04-09", "09:30", "BOUTON Sébastien", "DOCAPOSTE", "Agence", "INOV TEAM"], ["2027-04-09", "10:30", "MOUZONG Andreas", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-04-09", "11:30", "DEMOULIN Florian", "EPS", "Agence", "INOV TEAM"], ["2027-04-13", "10:00", "PROVENCAL Jean-Claude", "KAPPA ENGINEERING", "Site client Kappa Engineering", "INOV TEAM"], ["2027-04-13", "14:00", "BARBOSA Cindy", "PRO BTP", "Site client PRO BTP", "INOV TEAM LABS"], ["2027-04-16", "09:30", "MARTINEZ Brice", "AMADEUS", "Agence", "INOV TEAM / INOV TEAM LABS"], ["2027-04-16", "10:30", "BENNOUR Salah", "AMADEUS", "Agence", "INOV TEAM"], ["2027-04-16", "11:30", "DJERADA Lyes", "AMADEUS", "Agence", "INOV TEAM LABS"], ["2027-05-21", "09:30", "MARTINEZ Brice", "AMADEUS", "Agence", "INOV TEAM / INOV TEAM LABS"], ["2027-05-21", "10:30", "BENNOUR Salah", "AMADEUS", "Agence", "INOV TEAM"], ["2027-05-21", "11:30", "DJERADA Lyes", "AMADEUS", "Agence", "INOV TEAM LABS"], ["2027-06-01", "09:30", "ROBIN Antoine", "ORANGE", "Site client Orange", "INOV TEAM LABS"], ["2027-06-01", "10:30", "MERLET Gregory", "ORANGE", "Site client Orange", "INOV TEAM"], ["2027-06-01", "11:30", "ALGRET Romain", "ORANGE", "Site client Orange", "INOV TEAM LABS"], ["2027-06-04", "09:30", "COCHARD Damien", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-06-04", "10:30", "COURBIERE Yann", "DOCAPOSTE", "Agence", "INOV TEAM"], ["2027-06-04", "11:30", "TINDEL Jean", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-06-08", "10:00", "PROVENCAL Jean-Claude", "KAPPA ENGINEERING", "Site client Kappa Engineering", "INOV TEAM"], ["2027-06-08", "14:00", "BARBOSA Cindy", "PRO BTP", "Site client PRO BTP", "INOV TEAM LABS"], ["2027-06-11", "09:30", "BOUTON Sébastien", "DOCAPOSTE", "Agence", "INOV TEAM"], ["2027-06-11", "10:30", "MOUZONG Andreas", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-06-11", "11:30", "DEMOULIN Florian", "EPS", "Agence", "INOV TEAM"], ["2027-06-18", "09:30", "MARTINEZ Brice", "AMADEUS", "Agence", "INOV TEAM / INOV TEAM LABS"], ["2027-06-18", "10:30", "BENNOUR Salah", "AMADEUS", "Agence", "INOV TEAM"], ["2027-06-18", "11:30", "DJERADA Lyes", "AMADEUS", "Agence", "INOV TEAM LABS"], ["2027-07-02", "09:30", "COCHARD Damien", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-07-02", "10:30", "COURBIERE Yann", "DOCAPOSTE", "Agence", "INOV TEAM"], ["2027-07-02", "11:30", "TINDEL Jean", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-07-06", "09:30", "ROBIN Antoine", "ORANGE", "Site client Orange", "INOV TEAM LABS"], ["2027-07-06", "10:30", "MERLET Gregory", "ORANGE", "Site client Orange", "INOV TEAM"], ["2027-07-06", "11:30", "ALGRET Romain", "ORANGE", "Site client Orange", "INOV TEAM LABS"], ["2027-07-09", "09:30", "BOUTON Sébastien", "DOCAPOSTE", "Agence", "INOV TEAM"], ["2027-07-09", "10:30", "MOUZONG Andreas", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-07-09", "11:30", "DEMOULIN Florian", "EPS", "Agence", "INOV TEAM"], ["2027-07-13", "10:00", "PROVENCAL Jean-Claude", "KAPPA ENGINEERING", "Site client Kappa Engineering", "INOV TEAM"], ["2027-07-13", "14:00", "BARBOSA Cindy", "PRO BTP", "Site client PRO BTP", "INOV TEAM LABS"], ["2027-07-16", "09:30", "MARTINEZ Brice", "AMADEUS", "Agence", "INOV TEAM / INOV TEAM LABS"], ["2027-07-16", "10:30", "BENNOUR Salah", "AMADEUS", "Agence", "INOV TEAM"], ["2027-07-16", "11:30", "DJERADA Lyes", "AMADEUS", "Agence", "INOV TEAM LABS"], ["2027-08-03", "09:30", "ROBIN Antoine", "ORANGE", "Site client Orange", "INOV TEAM LABS"], ["2027-08-03", "10:30", "MERLET Gregory", "ORANGE", "Site client Orange", "INOV TEAM"], ["2027-08-03", "11:30", "ALGRET Romain", "ORANGE", "Site client Orange", "INOV TEAM LABS"], ["2027-08-06", "09:30", "COCHARD Damien", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-08-06", "10:30", "COURBIERE Yann", "DOCAPOSTE", "Agence", "INOV TEAM"], ["2027-08-06", "11:30", "TINDEL Jean", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-08-10", "10:00", "PROVENCAL Jean-Claude", "KAPPA ENGINEERING", "Site client Kappa Engineering", "INOV TEAM"], ["2027-08-10", "14:00", "BARBOSA Cindy", "PRO BTP", "Site client PRO BTP", "INOV TEAM LABS"], ["2027-08-13", "09:30", "BOUTON Sébastien", "DOCAPOSTE", "Agence", "INOV TEAM"], ["2027-08-13", "10:30", "MOUZONG Andreas", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-08-13", "11:30", "DEMOULIN Florian", "EPS", "Agence", "INOV TEAM"], ["2027-08-20", "09:30", "MARTINEZ Brice", "AMADEUS", "Agence", "INOV TEAM / INOV TEAM LABS"], ["2027-08-20", "10:30", "BENNOUR Salah", "AMADEUS", "Agence", "INOV TEAM"], ["2027-08-20", "11:30", "DJERADA Lyes", "AMADEUS", "Agence", "INOV TEAM LABS"], ["2027-09-03", "09:30", "COCHARD Damien", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-09-03", "10:30", "COURBIERE Yann", "DOCAPOSTE", "Agence", "INOV TEAM"], ["2027-09-03", "11:30", "TINDEL Jean", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-09-07", "09:30", "ROBIN Antoine", "ORANGE", "Site client Orange", "INOV TEAM LABS"], ["2027-09-07", "10:30", "MERLET Gregory", "ORANGE", "Site client Orange", "INOV TEAM"], ["2027-09-07", "11:30", "ALGRET Romain", "ORANGE", "Site client Orange", "INOV TEAM LABS"], ["2027-09-10", "09:30", "BOUTON Sébastien", "DOCAPOSTE", "Agence", "INOV TEAM"], ["2027-09-10", "10:30", "MOUZONG Andreas", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-09-10", "11:30", "DEMOULIN Florian", "EPS", "Agence", "INOV TEAM"], ["2027-09-14", "10:00", "PROVENCAL Jean-Claude", "KAPPA ENGINEERING", "Site client Kappa Engineering", "INOV TEAM"], ["2027-09-14", "14:00", "BARBOSA Cindy", "PRO BTP", "Site client PRO BTP", "INOV TEAM LABS"], ["2027-09-17", "09:30", "MARTINEZ Brice", "AMADEUS", "Agence", "INOV TEAM / INOV TEAM LABS"], ["2027-09-17", "10:30", "BENNOUR Salah", "AMADEUS", "Agence", "INOV TEAM"], ["2027-09-17", "11:30", "DJERADA Lyes", "AMADEUS", "Agence", "INOV TEAM LABS"], ["2027-10-01", "09:30", "COCHARD Damien", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-10-01", "10:30", "COURBIERE Yann", "DOCAPOSTE", "Agence", "INOV TEAM"], ["2027-10-01", "11:30", "TINDEL Jean", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-10-05", "09:30", "ROBIN Antoine", "ORANGE", "Site client Orange", "INOV TEAM LABS"], ["2027-10-05", "10:30", "MERLET Gregory", "ORANGE", "Site client Orange", "INOV TEAM"], ["2027-10-05", "11:30", "ALGRET Romain", "ORANGE", "Site client Orange", "INOV TEAM LABS"], ["2027-10-08", "09:30", "BOUTON Sébastien", "DOCAPOSTE", "Agence", "INOV TEAM"], ["2027-10-08", "10:30", "MOUZONG Andreas", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-10-08", "11:30", "DEMOULIN Florian", "EPS", "Agence", "INOV TEAM"], ["2027-10-12", "10:00", "PROVENCAL Jean-Claude", "KAPPA ENGINEERING", "Site client Kappa Engineering", "INOV TEAM"], ["2027-10-12", "14:00", "BARBOSA Cindy", "PRO BTP", "Site client PRO BTP", "INOV TEAM LABS"], ["2027-10-15", "09:30", "MARTINEZ Brice", "AMADEUS", "Agence", "INOV TEAM / INOV TEAM LABS"], ["2027-10-15", "10:30", "BENNOUR Salah", "AMADEUS", "Agence", "INOV TEAM"], ["2027-10-15", "11:30", "DJERADA Lyes", "AMADEUS", "Agence", "INOV TEAM LABS"], ["2027-11-02", "09:30", "ROBIN Antoine", "ORANGE", "Site client Orange", "INOV TEAM LABS"], ["2027-11-02", "10:30", "MERLET Gregory", "ORANGE", "Site client Orange", "INOV TEAM"], ["2027-11-02", "11:30", "ALGRET Romain", "ORANGE", "Site client Orange", "INOV TEAM LABS"], ["2027-11-05", "09:30", "COCHARD Damien", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-11-05", "10:30", "COURBIERE Yann", "DOCAPOSTE", "Agence", "INOV TEAM"], ["2027-11-05", "11:30", "TINDEL Jean", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-11-09", "10:00", "PROVENCAL Jean-Claude", "KAPPA ENGINEERING", "Site client Kappa Engineering", "INOV TEAM"], ["2027-11-09", "14:00", "BARBOSA Cindy", "PRO BTP", "Site client PRO BTP", "INOV TEAM LABS"], ["2027-11-12", "09:30", "BOUTON Sébastien", "DOCAPOSTE", "Agence", "INOV TEAM"], ["2027-11-12", "10:30", "MOUZONG Andreas", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-11-12", "11:30", "DEMOULIN Florian", "EPS", "Agence", "INOV TEAM"], ["2027-11-19", "09:30", "MARTINEZ Brice", "AMADEUS", "Agence", "INOV TEAM / INOV TEAM LABS"], ["2027-11-19", "10:30", "BENNOUR Salah", "AMADEUS", "Agence", "INOV TEAM"], ["2027-11-19", "11:30", "DJERADA Lyes", "AMADEUS", "Agence", "INOV TEAM LABS"], ["2027-12-03", "09:30", "COCHARD Damien", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-12-03", "10:30", "COURBIERE Yann", "DOCAPOSTE", "Agence", "INOV TEAM"], ["2027-12-03", "11:30", "TINDEL Jean", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-12-07", "09:30", "ROBIN Antoine", "ORANGE", "Site client Orange", "INOV TEAM LABS"], ["2027-12-07", "10:30", "MERLET Gregory", "ORANGE", "Site client Orange", "INOV TEAM"], ["2027-12-07", "11:30", "ALGRET Romain", "ORANGE", "Site client Orange", "INOV TEAM LABS"], ["2027-12-10", "09:30", "BOUTON Sébastien", "DOCAPOSTE", "Agence", "INOV TEAM"], ["2027-12-10", "10:30", "MOUZONG Andreas", "DOCAPOSTE", "Agence", "INOV TEAM LABS"], ["2027-12-10", "11:30", "DEMOULIN Florian", "EPS", "Agence", "INOV TEAM"], ["2027-12-14", "10:00", "PROVENCAL Jean-Claude", "KAPPA ENGINEERING", "Site client Kappa Engineering", "INOV TEAM"], ["2027-12-14", "14:00", "BARBOSA Cindy", "PRO BTP", "Site client PRO BTP", "INOV TEAM LABS"], ["2027-12-17", "09:30", "MARTINEZ Brice", "AMADEUS", "Agence", "INOV TEAM / INOV TEAM LABS"], ["2027-12-17", "10:30", "BENNOUR Salah", "AMADEUS", "Agence", "INOV TEAM"], ["2027-12-17", "11:30", "DJERADA Lyes", "AMADEUS", "Agence", "INOV TEAM LABS"]], "collabs": [["ROBIN Antoine", "ORANGE", "Site client Orange", "1er mardi, 09:30"], ["MERLET Gregory", "ORANGE", "Site client Orange", "1er mardi, 10:30"], ["ALGRET Romain", "ORANGE", "Site client Orange", "1er mardi, 11:30"], ["PROVENCAL Jean-Claude", "KAPPA ENGINEERING", "Site client Kappa Engineering", "2e mardi, 10:00"], ["BARBOSA Cindy", "PRO BTP", "Site client PRO BTP", "2e mardi, 14:00"], ["COCHARD Damien", "DOCAPOSTE", "Agence", "1er vendredi, 09:30"], ["COURBIERE Yann", "DOCAPOSTE", "Agence", "1er vendredi, 10:30"], ["TINDEL Jean", "DOCAPOSTE", "Agence", "1er vendredi, 11:30"], ["BOUTON Sébastien", "DOCAPOSTE", "Agence", "2e vendredi, 09:30"], ["MOUZONG Andreas", "DOCAPOSTE", "Agence", "2e vendredi, 10:30"], ["DEMOULIN Florian", "EPS", "Agence", "2e vendredi, 11:30"], ["MARTINEZ Brice", "AMADEUS", "Agence", "3e vendredi, 09:30"], ["BENNOUR Salah", "AMADEUS", "Agence", "3e vendredi, 10:30"], ["DJERADA Lyes", "AMADEUS", "Agence", "3e vendredi, 11:30"]]};
+
+/* ===== Suivi collaborateurs ===== */
+const STATUTS = ["À faire","Planifié","Fait","Reporté"];
+const ST_CLS = {"À faire":"st-todo","Planifié":"st-plan","Fait":"st-done","Reporté":"st-late"};
+const MOIS = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+const JOURS = ["lun.","mar.","mer.","jeu.","ven.","sam.","dim."];
+const slug = s => String(s).toLowerCase().normalize("NFD").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+const PLAN = PLAN_DATA.plan.map(r => ({ id:r[0]+"-"+slug(r[2]), date:r[0], heure:r[1], collab:r[2], client:r[3], lieu:r[4], entite:r[5] }));
+const COLLABS = PLAN_DATA.collabs.map(r => ({ collab:r[0], client:r[1], lieu:r[2], creneau:r[3] }));
+let SUIVI = {}, suiviState = "loading";
+const todayISO = () => { const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); };
+const _t = new Date(); let CAL = { y:_t.getFullYear(), m:_t.getMonth() }, CAL_CLIENT = "";
+const prettyName = n => { const p=String(n).trim().split(/\s+/); return p.length>1 ? p.slice(1).join(" ")+" "+p[0] : n; };
+const clientLabel = c => ({"AMADEUS":"Amadeus","ORANGE":"Orange","DOCAPOSTE":"Docaposte","PRO BTP":"PRO BTP","EPS":"EPS","KAPPA ENGINEERING":"Kappa Engineering","AIR FRANCE":"Air France"}[c] || c);
+const dLong = iso => { const d=new Date(iso+"T12:00:00"); return d.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"}); };
+const dShort = iso => { const d=new Date(iso+"T12:00:00"); return d.toLocaleDateString("fr-FR",{day:"numeric",month:"short"}); };
+function events(){
+  return PLAN.map(e => { const o=SUIVI[e.id]||{}; return Object.assign({}, e, { date:o.date||e.date, heure:o.heure||e.heure, statut:o.statut||"À faire", cr:o.cr||"", maj:o.majLe||"" }); })
+    .concat(Object.entries(SUIVI).filter(([id,o])=>o.ajout).map(([id,o])=>({ id, date:o.date, heure:o.heure||"", collab:o.collab, client:o.client||"", lieu:o.lieu||"", entite:o.entite||"", statut:o.statut||"À faire", cr:o.cr||"", maj:o.majLe||"", ajout:true })))
+    .sort((a,b)=> (a.date+a.heure).localeCompare(b.date+b.heure));
+}
+const isLate = e => e.date < todayISO() && (e.statut==="À faire" || e.statut==="Planifié");
+
+(async () => {
+  try {
+    if (!window.claude || typeof window.claude.use!=="function") { suiviState="off"; return; }
+    const db = await window.claude.use("db");
+    if (!db) { suiviState="off"; render(); return; }
+    let timer = setTimeout(()=>{ if(suiviState==="loading"){ suiviState="slow"; render(); } }, 10000);
+    db.collection("suivi").onSnapshot(snap => {
+      const o = {}; snap.docs.forEach(d => { if (d.exists) o[d.id] = d.data()||{}; });
+      SUIVI = o; if (!snap.metadata.fromCache) clearTimeout(timer); suiviState="ready";
+      if (!document.getElementById("rdv-form")) render();
+    }, () => { clearTimeout(timer); suiviState="error"; render(); });
+  } catch(e){ suiviState="off"; }
+})();
+
+function suiviNotice(){
+  if (suiviState==="off") return `<div class="alert"><span class="dot"></span><div><b>Lecture seule ici.</b> Les statuts et comptes rendus s'enregistrent sur la <a href="${CLAUDE_URL}" target="_blank" rel="noopener">version Claude</a> de l'app.</div></div>`;
+  if (suiviState==="slow") return `<div class="alert"><span class="dot"></span><div>Les statuts enregistrés ne répondent pas encore. L'affichage est peut-être incomplet.</div></div>`;
+  if (suiviState==="error") return `<div class="alert rouge"><span class="dot"></span><div>Impossible de lire les statuts enregistrés pour le moment.</div></div>`;
+  return "";
+}
+
+function calendarHTML(evs){
+  const first = new Date(CAL.y, CAL.m, 1), startDow = (first.getDay()+6)%7, days = new Date(CAL.y, CAL.m+1, 0).getDate();
+  const cells = []; for (let i=0;i<startDow;i++) cells.push(null);
+  for (let d=1; d<=days; d++) cells.push(d); while (cells.length%7) cells.push(null);
+  const pad = n => String(n).padStart(2,"0"), t = todayISO();
+  const byDay = {}; evs.forEach(e => { (byDay[e.date] = byDay[e.date] || []).push(e); });
+  const chip = e => `<button class="ev ${ST_CLS[e.statut]}${isLate(e)?" late":""}" data-rdv="${e.id}" title="${esc(prettyName(e.collab))} · ${esc(clientLabel(e.client))} · ${esc(e.statut)}"><span class="mono">${esc(e.heure)}</span> ${esc(prettyName(e.collab))}</button>`;
+  const grid = cells.map((d,i) => {
+    if (!d) return `<div class="cd empty-d"></div>`;
+    const iso = CAL.y+"-"+pad(CAL.m+1)+"-"+pad(d), we = i%7>=5, list = byDay[iso]||[];
+    return `<div class="cd${we?" we":""}${iso===t?" today":""}"><span class="dn">${d}</span>${list.map(chip).join("")}</div>`;
+  }).join("");
+  const monthEvs = evs.filter(e => e.date.startsWith(CAL.y+"-"+pad(CAL.m+1)));
+  const agenda = monthEvs.length ? monthEvs.map(e => `<button class="ag-i" data-rdv="${e.id}"><span class="ag-d">${dShort(e.date)}<span class="mono">${esc(e.heure)}</span></span><span class="ag-n"><b>${esc(prettyName(e.collab))}</b><span>${esc(clientLabel(e.client))} · ${esc(e.lieu)}</span></span><span class="pill ${ST_CLS[e.statut]}">${isLate(e)?"En retard":esc(e.statut)}</span></button>`).join("") : `<div class="empty">Aucun rendez-vous ce mois-ci.</div>`;
+  return `<section class="card">
+    <div class="ch"><div class="tt"><h2>${MOIS[CAL.m][0].toUpperCase()+MOIS[CAL.m].slice(1)} ${CAL.y}</h2><span class="small muted">${plural(monthEvs.length,"rendez-vous","rendez-vous")}</span></div>
+      <div class="actions"><button class="btn sec sm" data-cal="prev" aria-label="Mois précédent">‹</button><button class="btn sec sm" data-cal="today">Aujourd'hui</button><button class="btn sec sm" data-cal="next" aria-label="Mois suivant">›</button></div></div>
+    <div class="cal"><div class="cal-h">${JOURS.map((j,i)=>`<span class="${i>=5?"we":""}">${j}</span>`).join("")}</div><div class="cal-g">${grid}</div></div>
+    <div class="agenda">${agenda}</div>
+    <div class="cb"><div class="legend">${STATUTS.map(s=>`<span><i class="${ST_CLS[s]}"></i>${s}</span>`).join("")}<span><i class="st-overdue"></i>En retard</span></div></div>
+  </section>`;
+}
+
+function suiviView(){
+  const all = events(), t = todayISO();
+  const evs = CAL_CLIENT ? all.filter(e => e.client===CAL_CLIENT) : all;
+  const next = evs.find(e => e.date >= t && e.statut!=="Fait");
+  const ym = CAL.y+"-"+String(CAL.m+1).padStart(2,"0");
+  const monthEvs = evs.filter(e => e.date.startsWith(ym)), monthDone = monthEvs.filter(e=>e.statut==="Fait").length;
+  const late = evs.filter(isLate);
+  const clients = [...new Set(COLLABS.map(c=>c.client))];
+  const rows = COLLABS.filter(c => !CAL_CLIENT || c.client===CAL_CLIENT).map(c => {
+    const mine = all.filter(e => e.collab===c.collab);
+    const done = mine.filter(e => e.statut==="Fait"), last = done[done.length-1], nx = mine.find(e => e.date>=t && e.statut!=="Fait");
+    return `<tr class="click" data-rdv="${nx?nx.id:""}"><td><div class="person"><span class="av sm ${hv(c.collab)}">${initials(prettyName(c.collab))}</span><div><b>${esc(prettyName(c.collab))}</b></div></div></td><td>${esc(clientLabel(c.client))}</td><td>${esc(c.lieu)}</td><td>${esc(c.creneau)}</td><td class="num-c">${done.length}</td><td>${last?dShort(last.date):"<span class='muted'>Aucun</span>"}</td><td>${nx?`<b>${dShort(nx.date)}</b> <span class="muted mono">${esc(nx.heure)}</span>`:"<span class='muted'>Rien de prévu</span>"}</td></tr>`;
+  }).join("");
+  return `
+  <div class="phead sechead"><div><h1>Suivi collaborateurs</h1><p>Un point par mois avec chaque consultant. Clique sur un rendez-vous pour changer son statut ou saisir le compte rendu.</p></div>
+    <div class="actions"><select id="cal-client" aria-label="Filtrer par client"><option value="">Tous les clients</option>${clients.map(c=>`<option value="${esc(c)}"${c===CAL_CLIENT?" selected":""}>${esc(clientLabel(c))}</option>`).join("")}</select></div></div>
+  ${suiviNotice()}
+  <div class="grid g4">
+    <div class="kpi"><div class="kt">Prochain rendez-vous <span class="ki">${IC.cal}</span></div><b class="kpi-s">${next?dShort(next.date):"Aucun"}</b><div class="kf">${next?esc(prettyName(next.collab))+" · "+esc(next.heure)+" · "+esc(clientLabel(next.client)):"Rien de prévu"}</div></div>
+    <div class="kpi"><div class="kt">Rendez-vous ce mois-ci <span class="ki">${IC.users}</span></div><b>${monthEvs.length}</b><div class="meter" aria-hidden="true"><i style="width:${monthEvs.length?monthDone/monthEvs.length*100:0}%"></i></div><div class="kf">${monthDone} fait${monthDone>1?"s":""} sur ${monthEvs.length}</div></div>
+    <div class="kpi${late.length?" warn":""}"><div class="kt">En retard <span class="ki">${IC.clock}</span></div><b>${late.length}</b><div class="kf">${late.length?"Date passée, statut à mettre à jour":"Tout est à jour"}</div></div>
+    <div class="kpi"><div class="kt">Collaborateurs suivis <span class="ki">${IC.users}</span></div><b>${CAL_CLIENT?COLLABS.filter(c=>c.client===CAL_CLIENT).length:COLLABS.length}</b><div class="kf">Points mardi sur site client, vendredi à l'agence</div></div>
+  </div>
+  ${calendarHTML(evs)}
+  <section class="card"><div class="ch"><div class="tt"><h2>Collaborateurs</h2></div></div>
+    <div class="tablewrap"><table><thead><tr><th>Collaborateur</th><th>Client</th><th>Lieu</th><th>Créneau mensuel</th><th>Faits</th><th>Dernier fait</th><th>Prochain</th></tr></thead><tbody>${rows}</tbody></table></div></section>`;
+}
+
+function openRdv(id){
+  const e = events().find(x => x.id===id); if (!e) return;
+  const root = document.getElementById("modal-root");
+  root.innerHTML = `<div class="overlay" data-close="1"><form class="modal" id="rdv-form" data-id="${e.id}" novalidate role="dialog" aria-modal="true" aria-labelledby="rdv-t">
+    <div class="mh"><div class="person"><span class="av ${hv(e.collab)}">${initials(prettyName(e.collab))}</span><div><h2 id="rdv-t">${esc(prettyName(e.collab))}</h2><span class="small muted">${esc(clientLabel(e.client))} · ${esc(e.lieu)} · ${esc(e.entite)}</span></div></div><button type="button" class="btn sec sm" data-close="1" aria-label="Fermer">✕</button></div>
+    <div class="mb">
+      <div class="qgrid"><div class="field"><label for="rdv-date">Date</label><input type="date" id="rdv-date" value="${e.date}"></div><div class="field"><label for="rdv-h">Heure</label><input type="text" id="rdv-h" value="${esc(e.heure)}"></div></div>
+      <div class="field"><span class="lbl">Statut</span><div class="seg" role="group" aria-label="Statut">${STATUTS.map(s=>`<button type="button" data-st="${s}" aria-pressed="${s===e.statut}">${s}</button>`).join("")}</div></div>
+      <div class="field"><label for="rdv-cr">Compte rendu</label><span class="hint">Météo de la mission, retours du collaborateur, points d'attention, suite à donner.</span><textarea id="rdv-cr" rows="6">${esc(e.cr)}</textarea></div>
+      ${e.maj?`<span class="hint">Dernière mise à jour le ${new Date(e.maj).toLocaleDateString("fr-FR",{day:"numeric",month:"short"})}</span>`:""}
+    </div>
+    <div class="mf"><span id="rdv-msg" class="hint" role="status"></span><button type="button" class="btn sec" data-close="1">Annuler</button><button type="submit" class="btn grad" id="rdv-save">Enregistrer</button></div>
+  </form></div>`;
+  const f = document.getElementById("rdv-cr"); if (f) f.focus();
+}
+function closeRdv(){ document.getElementById("modal-root").innerHTML=""; render(); }
+let rdvSaving = false;
+document.addEventListener("click", e => {
+  const c = e.target.closest("[data-cal]");
+  if (c){ const k=c.dataset.cal; if(k==="today"){ const d=new Date(); CAL={y:d.getFullYear(),m:d.getMonth()}; } else { let m=CAL.m+(k==="next"?1:-1), y=CAL.y; if(m<0){m=11;y--;} if(m>11){m=0;y++;} CAL={y,m}; } render(); return; }
+  const r = e.target.closest("[data-rdv]");
+  if (r && r.dataset.rdv){ openRdv(r.dataset.rdv); return; }
+  const st = e.target.closest("#rdv-form [data-st]");
+  if (st){ document.querySelectorAll("#rdv-form [data-st]").forEach(b=>b.setAttribute("aria-pressed", b===st?"true":"false")); return; }
+  if (e.target.closest("button[data-close]") || (e.target.classList && e.target.classList.contains("overlay"))) { closeRdv(); }
+});
+document.addEventListener("keydown", e => { if (e.key==="Escape" && document.getElementById("rdv-form")) closeRdv(); });
+document.addEventListener("change", e => { if (e.target.id==="cal-client"){ CAL_CLIENT = e.target.value; render(); } });
+document.addEventListener("submit", async e => {
+  if (e.target.id!=="rdv-form") return;
+  e.preventDefault();
+  const msg = document.getElementById("rdv-msg"), id = e.target.dataset.id;
+  const statut = (document.querySelector('#rdv-form [data-st][aria-pressed="true"]')||{dataset:{st:"À faire"}}).dataset.st;
+  const body = { statut, cr:document.getElementById("rdv-cr").value.trim(), date:document.getElementById("rdv-date").value, heure:document.getElementById("rdv-h").value.trim(), majLe:new Date().toISOString() };
+  if (!body.date){ msg.textContent="À compléter : date."; return; }
+  const db = window.claude && typeof window.claude.use==="function" ? await window.claude.use("db") : null;
+  if (!db){ msg.textContent="Enregistrement indisponible ici : ouvre la version Claude de l'app."; return; }
+  if (rdvSaving) return; rdvSaving = true; document.getElementById("rdv-save").disabled = true; msg.textContent = "Enregistrement…";
+  const prev = SUIVI[id]; if (prev && prev.ajout) Object.assign(body, { ajout:true, collab:prev.collab, client:prev.client, lieu:prev.lieu, entite:prev.entite });
+  try { await db.collection("suivi").doc(id).set(body); rdvSaving=false; closeRdv(); }
+  catch(err){ rdvSaving=false; const b=document.getElementById("rdv-save"); if(b) b.disabled=false;
+    msg.textContent = (err&&err.code)==="invalid_argument" ? "Enregistrement refusé : il faut un accès Contributeur ou plus." : "Enregistrement impossible pour le moment, réessaie."; }
+});
+
 function render(){
   const id = (location.hash||"").slice(1);
   const c = findAcc(id);
   const st = id==="statistiques";
+  const su = id==="suivi";
   let m;
   const sp = (m=id.match(/^espace-(alex|amir|sandrine)$/)) ? m[1] : null;
   const add = (m=id.match(/^ajout-(alex|amir|sandrine)$/)) ? m[1] : (id==="questionnaire" ? "amir" : null);
   const mod = (m=id.match(/^modif-(.+)$/)) ? m[1] : null;
-  const cur = c ? c.id : st ? "statistiques" : sp ? "espace-"+sp : (add||mod) ? "questionnaire" : "vue";
+  const cur = c ? c.id : st ? "statistiques" : su ? "suivi" : sp ? "espace-"+sp : (add||mod) ? "questionnaire" : "vue";
   nav(cur);
   if ((add||mod) && document.getElementById("qform") && document.getElementById("qform").dataset.route===id) return;
   const crumb = t => `<span>Comptes clients</span><span>›</span><b>${esc(t)}</b>`;
-  document.getElementById("crumb").innerHTML = c ? crumb(c.name) : st ? crumb("Statistiques") : sp ? crumb("Espace "+SPACES[sp]) : add ? crumb("Questionnaire") : mod ? crumb("Modifier un compte") : `<b>Vue d'ensemble</b>`;
+  document.getElementById("crumb").innerHTML = c ? crumb(c.name) : st ? crumb("Statistiques") : su ? crumb("Suivi collaborateurs") : sp ? crumb("Espace "+SPACES[sp]) : add ? crumb("Questionnaire") : mod ? crumb("Modifier un compte") : `<b>Vue d'ensemble</b>`;
   let html;
   if (c) html = clientView(c);
   else if (st) html = stats();
+  else if (su) html = suiviView();
   else if (sp) html = spaceView(sp);
   else if (add) html = formView(add, null);
   else if (mod) html = EXTRA.find(x=>x.docId===mod) ? formView(null, mod) : (dbState==="loading"||dbState==="slow" ? dbNotice() : `<div class="empty">Ce compte n'existe plus.</div>`);
@@ -835,6 +1028,7 @@ function showTip(el,x,y){ TIP.innerHTML=el.getAttribute("data-tip"); TIP.style.d
 document.addEventListener("mousemove", e=>{ const el=e.target.closest("[data-tip]"); if(el) showTip(el,e.clientX,e.clientY); else TIP.style.display="none"; });
 document.addEventListener("focusin", e=>{ const el=e.target.closest("[data-tip]"); if(el){ const r=el.getBoundingClientRect(); showTip(el,r.left+r.width/2,r.bottom); } });
 document.addEventListener("focusout", ()=>{ TIP.style.display="none"; });
+try { document.getElementById("topdate").textContent = new Date().toLocaleDateString("fr-FR",{weekday:"short",day:"numeric",month:"short"}); } catch(e){}
 render();
 </script>
 </body>
