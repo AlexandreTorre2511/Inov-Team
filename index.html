@@ -382,6 +382,16 @@ input[type=password]{font:inherit;color:inherit;background:var(--surface);border
 .person.mine > div > span{color:var(--ok);font-weight:700}
 .mine-note{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);margin:0}
 .mine-dot{width:10px;height:10px;border-radius:3px;background:var(--ok)}
+.card .cb.bf{display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:12px;text-align:left}
+.bf .seg{margin:0}.bf input,.bf select{margin:0}
+.kpi b.kpi-s{font-size:clamp(18px,2vw,24px);line-height:1.2;overflow-wrap:anywhere}
+.bf select{width:auto;min-width:200px}.bf input{flex:1 1 220px;width:auto}
+.bgroups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+@media (max-width:1100px){.bgroups{grid-template-columns:minmax(0,1fr)}}
+.bgroup .ch h2 a{color:var(--fg)}
+.bgroup .ai{width:36px;height:36px;border-radius:10px;background:var(--grad);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
+.brow .tags{justify-content:flex-end}
+[hidden]{display:none !important}
 </style>
 </head>
 <body>
@@ -399,6 +409,10 @@ input[type=password]{font:inherit;color:inherit;background:var(--surface);border
 </div>
 
 <script>
+var BF = { client:"", com:"", q:"" };
+var BESOINS = [{"client": "Orange", "part": "", "loc": "Mougins", "date": "2026-03-31", "titre": "Développement Python / DevOps · Push semaine du 13/04", "poste": "Développement Python", "niveau": "Confirmé", "com": "Alex"}, {"client": "URSSAF", "part": "LBC", "loc": "Sophia", "date": "2026-04-29", "titre": "1 DevOps confirmé Kubernetes / Openshift / Helm / Argo CD- Démarrage 25/05", "poste": "DevOps", "niveau": "Confirmé", "com": "Sandrine"}, {"client": "Gouvernement de Monaco", "part": "ASTERIA", "loc": "Monaco", "date": "2026-04-29", "titre": "1 QA fonctionnel sénior (SQUASH TM · API Postman)", "poste": "Testeur fonctionnel", "niveau": "Confirmé", "com": "Sandrine"}, {"client": "Gouvernement de Monaco", "part": "ASTERIA", "loc": "Monaco", "date": "2026-04-29", "titre": "1 CP", "poste": "Chef de projet", "niveau": "Confirmé", "com": "Sandrine/Amir"}, {"client": "PRO BTP", "part": "", "loc": "Cagnes-sur-mer", "date": "2026-04-23", "titre": "1 Business Analyst Data", "poste": "Data Analyst", "niveau": "Confirmé", "com": "Alex"}, {"client": "Kappa Engineering", "part": "", "loc": "Mougins", "date": "2026-01-26", "titre": "1 DEV React JS · C#", "poste": "Développement React.js", "niveau": "Confirmé", "com": "Alex"}, {"client": "Enovacom", "part": "OBS", "loc": "Mougins", "date": "2026-04-17", "titre": "1 dev Fullstack .net / React · 5 ans XP", "poste": "", "niveau": "Confirmé", "com": "Alex/Sandrine"}, {"client": "Enovacom", "part": "OBS", "loc": "Mougins", "date": "2026-04-17", "titre": "1 dev Front React · 5 ans XP", "poste": "", "niveau": "Confirmé", "com": "Alex/Sandrine"}, {"client": "Orange", "part": "Ausy", "loc": "Mougins", "date": "2026-03-31", "titre": "Développement Node JS / React Js (+ 1 ou +2)", "poste": "Développement full-stack JS", "niveau": "Confirmé", "com": "Alex"}, {"client": "GSF", "part": "", "loc": "Sophia", "date": "2026-04-03", "titre": "Architecte sécurité cloud Azure", "poste": "Ingénieur sécurité", "niveau": "Sénior", "com": "Sandrine"}, {"client": "EPS", "part": "", "loc": "Cagnes-sur-mer", "date": "2026-03-30", "titre": "Dev Java / Lazy / Kafka (+ 2 people d'ici juin et +8 people d'ici fin d'année)", "poste": "Développement Java", "niveau": "Sénior", "com": "Alex"}, {"client": "Docaposte", "part": "Softeam", "loc": "Sophia", "date": "2026-03-30", "titre": "1 DevOps / ML Ops (préavis OK)", "poste": "", "niveau": "Confirmé", "com": "Alex"}, {"client": "Docaposte", "part": "Softeam", "loc": "Sophia", "date": "2026-03-30", "titre": "1 CSM (ID 360)", "poste": "", "niveau": "Sénior", "com": "Alex"}, {"client": "Docaposte", "part": "Softeam", "loc": "Sophia", "date": "2026-03-30", "titre": "1 CP (Contralia / DTS)", "poste": "", "niveau": "Sénior", "com": "Alex"}, {"client": "PRO BTP", "part": "", "loc": "Cagnes-sur-mer", "date": "2026-03-18", "titre": "Chef de projet à venir sur DCS (Juin 2026)", "poste": "Chef de projet", "niveau": "Confirmé", "com": "Alex"}, {"client": "Mon Espace Santé", "part": "ATOS", "loc": "Sophia", "date": "2026-03-18", "titre": "1 Tech Lead / Archi Vue.js", "poste": "", "niveau": "", "com": "Sandrine"}, {"client": "PRO BTP", "part": "", "loc": "Cagnes-sur-mer", "date": "2026-01-26", "titre": "Business Analyst Junior / Confirmé · Compétences ou appétences Recouvrement, Process Contencieux, Chaîne de traitement", "poste": "Business Analyst", "niveau": "Junior / confirmé", "com": "Alex"}, {"client": "Gouvernement de Monaco", "part": "Monaco Digital", "loc": "Monaco", "date": "2026-04-16", "titre": "Développeur Fullstack React/Angular", "poste": "Développement full-stack JS", "niveau": "Confirmé / Sénior", "com": "Amir"}, {"client": "Gouvernement de Monaco", "part": "Monaco Digital", "loc": "Monaco", "date": "2026-04-01", "titre": "Administrateur Système Linux, Infra & Réseaux", "poste": "Ingénieur Système et Réseaux", "niveau": "Confirmé / Sénior", "com": "Amir"}, {"client": "Gouvernement de Monaco", "part": "Monaco Digital", "loc": "Monaco", "date": "2026-04-01", "titre": "Consultant Intégration ERP", "poste": "", "niveau": "Confirmé / Sénior", "com": "Amir"}, {"client": "Gouvernement de Monaco", "part": "Monaco Digital", "loc": "Monaco", "date": "2026-04-01", "titre": "Analyste Technique Confirmé/Senior (background en dev Java)", "poste": "", "niveau": "Confirmé / Sénior", "com": "Amir"}, {"client": "Gouvernement de Monaco", "part": "Monaco Digital", "loc": "Monaco", "date": "2026-04-01", "titre": "Consultant Fonctionnel sur la norme EIDASV2", "poste": "", "niveau": "Confirmé / Sénior", "com": "Amir"}, {"client": "Barclays", "part": "Monaco Digital", "loc": "Monaco", "date": "2026-03-24", "titre": "DevOps Confirmé/Senior", "poste": "DevOps", "niveau": "Confirmé / Sénior", "com": "Amir"}, {"client": "PRO BTP", "part": "", "loc": "Cagnes-sur-mer", "date": "2026-01-26", "titre": "2 QA manuel ASAP · Expérience en assurance Prévoyance / Frais de Santé · ASAP", "poste": "Testeur fonctionnel", "niveau": "Confirmé / Sénior", "com": "Alex/Sandrine"}, {"client": "Median", "part": "", "loc": "Sophia", "date": "2026-02-23", "titre": "Technicien Support Windows / Intunes · Rpt alternant par CDI · Septembre 2026", "poste": "Support infrastrcuture (niv 1/2)", "niveau": "Confirmé", "com": "Sandrine"}, {"client": "Orange", "part": "", "loc": "Sophia", "date": "2026-02-17", "titre": "Ops, à valider", "poste": "DevOps", "niveau": "Confirmé", "com": "Alex/Sandrine"}, {"client": "Orange", "part": "", "loc": "Sophia", "date": "2026-02-17", "titre": "Dev Node.js / React js · Appétences DevOps (Gitlab CI, Prometheus, Grafana)", "poste": "Développement full-stack JS", "niveau": "Confirmé", "com": "Alex"}, {"client": "Schneider Electric", "part": "INFOTEL", "loc": "Carros", "date": "2026-02-13", "titre": "Test manuel automate (si possible Python). Besoin assez urgent. Pas de séniorité particulière demandée", "poste": "Test et validation - embarqué", "niveau": "", "com": "Sandrine"}, {"client": "Schneider Electric", "part": "INFOTEL", "loc": "Carros", "date": "2026-02-13", "titre": "Dev . net 5 ans d’expérience · Remplacement · Préavis OK", "poste": "Développement .NET", "niveau": "", "com": "Sandrine"}, {"client": "Docaposte", "part": "Softeam", "loc": "Sophia", "date": "2026-02-13", "titre": "1 QA auto confirmé JAVA / RobotFramework", "poste": "", "niveau": "", "com": "Sandrine"}, {"client": "Air France", "part": "INFOTEL", "loc": "Sophia", "date": "2026-02-13", "titre": "3 Dev Java / Angular", "poste": "Développement Java/Angular", "niveau": "", "com": "Sandrine"}, {"client": "Air France", "part": "CGI", "loc": "Sophia", "date": "2026-02-13", "titre": "1 Business Analyst (Background Technique)", "poste": "", "niveau": "", "com": "Sandrine"}, {"client": "Air France", "part": "CGI", "loc": "Sophia", "date": "2026-02-13", "titre": "3 Dev Java / Angular", "poste": "", "niveau": "", "com": "Alex/Sandrine"}, {"client": "Amadeus", "part": "", "loc": "Sophia", "date": "2026-02-05", "titre": "Technical Project Manager TSI Hospitality", "poste": "", "niveau": "Confirmé", "com": "Sandrine"}, {"client": "Amadeus", "part": "CGI", "loc": "Sophia", "date": "2026-01-26", "titre": "1 Product Definition Analyst (Surf)", "poste": "Business Analyst", "niveau": "Sénior", "com": "Alex/Sandrine"}, {"client": "Amadeus", "part": "RANDSTADT", "loc": "Sophia", "date": "2026-01-26", "titre": "2 DevOps background Dev Java ou Python", "poste": "DevOps", "niveau": "Sénior", "com": "Amir"}, {"client": "Amadeus", "part": "CGI", "loc": "Sophia", "date": "2026-01-26", "titre": "Product Management Sénior Nexwave", "poste": "Product Manager", "niveau": "Sénior", "com": "Alex/Sandrine"}, {"client": "PRO BTP", "part": "", "loc": "Cagnes-sur-mer", "date": "2026-01-26", "titre": "Scrum Master", "poste": "Scrum Master", "niveau": "Confirmé / Sénior", "com": "Alex/Sandrine"}, {"client": "Amadeus", "part": "CGI", "loc": "Sophia", "date": "2026-01-26", "titre": "Dev Fullstack Sénior (remplacement)", "poste": "Développement Java/Angular", "niveau": "Sénior", "com": "Alex/Sandrine"}, {"client": "CBS Monaco", "part": "", "loc": "Monaco", "date": "2026-01-26", "titre": "Consultant SQL Server Confirmé", "poste": "", "niveau": "Confirmé", "com": ""}, {"client": "CBS Monaco", "part": "", "loc": "Monaco", "date": "2026-03-08", "titre": "Développeur Angular Senior", "poste": "Développement Angular", "niveau": "Senior", "com": ""}, {"client": "Median", "part": "", "loc": "Sophia", "date": "2026-01-08", "titre": "Dev .net / C# · au Maroc · 2 postes ouverts", "poste": "", "niveau": "", "com": "Sandrine"}, {"client": "Thales DIS", "part": "THALES Services", "loc": "Sophia", "date": "2026-01-09", "titre": "Dev Node.js / AWS / Mongo DB · Anglais courant nécessaire · Pré embauche", "poste": "", "niveau": "Confirmé", "com": "Sandrine"}, {"client": "Orange", "part": "", "loc": "Mougins", "date": "2025-12-15", "titre": "Ingénieur SysOps, Sénior Kubernetes, 5 ans d'xp", "poste": "Ingénieur Système", "niveau": "Sénior", "com": "Alex"}, {"client": "Air France", "part": "Infotel", "loc": "Sophia", "date": "2025-12-10", "titre": "1 dev Fullstack", "poste": "", "niveau": "", "com": "Sandrine"}, {"client": "Thales DIS", "part": "Thales Services", "loc": "Sophia", "date": "2025-11-07", "titre": "Pré embauche · Dev Node.js / Dev Python (3 postes)", "poste": "", "niveau": "", "com": "Sandrine"}, {"client": "Crédit Agricole", "part": "", "loc": "Aix", "date": "2025-11-07", "titre": "2 Chefs de projet Marketing relationnel", "poste": "Chef de projet", "niveau": "Confirmé / Sénior", "com": "Sandrine"}, {"client": "Crédit Agricole", "part": "", "loc": "Aix", "date": "2025-11-07", "titre": "Chargée d'activité marketing et CRM", "poste": "", "niveau": "Confirmé / Sénior", "com": "Sandrine"}, {"client": "Crédit Agricole", "part": "", "loc": "Aix", "date": "2025-11-07", "titre": "2 Experts CDP Tealium", "poste": "", "niveau": "Confirmé / Sénior", "com": "Alex/Sandrine"}, {"client": "Crédit Agricole", "part": "", "loc": "Aix", "date": "2025-11-07", "titre": "Expert SEO/GEO", "poste": "", "niveau": "Confirmé / Sénior", "com": "Sandrine"}, {"client": "Air France", "part": "CGI", "loc": "Sophia", "date": "2025-11-03", "titre": "2 testeurs auto / anglais courant / XP Amadeus ou AF serait 1 gros plus · Envoi CV avant le 10/11 · Début 01/2026", "poste": "Testeut Auto", "niveau": "Senior", "com": "Sandrine"}, {"client": "Gouvernement de Monaco", "part": "Infotel Monaco", "loc": "Monaco", "date": "2025-10-23", "titre": "3 postes : 1 Lead QA / 1 QA fonctionnel 4 ans XP / 1 QA fonctionnel 5 ans XP", "poste": "Testeur fonctionnel", "niveau": "Confirmé", "com": "Sandrine"}, {"client": "Gouvernement de Monaco", "part": "Asteria", "loc": "Monaco", "date": "2025-10-31", "titre": "1 Chef de Produit", "poste": "", "niveau": "", "com": "Sandrine"}, {"client": "Schneider Electric", "part": "", "loc": "Carros", "date": "2025-10-21", "titre": "1 Testeur Validation Fonctionnelle / Automate · Expérience secteur INDUS obligatoire", "poste": "", "niveau": "Confirmé", "com": "Sandrine"}, {"client": "PRO BTP", "part": "", "loc": "", "date": "", "titre": "QA fonctionnel + background Assurance", "poste": "", "niveau": "", "com": "Sandrine"}, {"client": "SOS Oxygène", "part": "", "loc": "Nice", "date": "2025-09-29", "titre": "1 dev .net", "poste": "", "niveau": "", "com": ""}, {"client": "Silversea", "part": "", "loc": "Monaco", "date": "2025-09-29", "titre": "1 dev Senior FS + 1 dev junior FS (1 à dominante Front Angular) + 1 à dominance Back (.net)", "poste": "Développement full-stack JS", "niveau": "", "com": "Amir"}, {"client": "Air France", "part": "CGI", "loc": "Sophia", "date": "2025-09-29", "titre": "1 dev FS Back Java (remplacement)", "poste": "Développement Java", "niveau": "", "com": "Sandrine"}, {"client": "Orange", "part": "Squad", "loc": "Sophia", "date": "2025-09-01", "titre": "Développeur Golang / DevOps confirmé T1 2026", "poste": "Développement GO", "niveau": "Confirmé", "com": "Alex"}];
+var POTALAS_URL = "https://inovteamsi.sharepoint.com/:x:/r/sites/SuiviOperationnel/_layouts/15/Doc.aspx?sourcedoc=%7BC4678017-4E00-4113-B939-DE23B816E3F7%7D&file=Potalas%20V1.xlsm&action=default&mobileredirect=true";
+
 const SUN = '<svg class="sun" viewBox="0 0 300 300" aria-hidden="true"><g stroke="#fff" stroke-linecap="round"><line x1="206" y1="150" x2="216" y2="150" stroke-width="9"/><line x1="232" y1="150" x2="250" y2="150" stroke-width="11"/><line x1="266" y1="150" x2="292" y2="150" stroke-width="13"/><line x1="189.6" y1="189.6" x2="196.7" y2="196.7" stroke-width="9"/><line x1="208" y1="208" x2="220.7" y2="220.7" stroke-width="11"/><line x1="232" y1="232" x2="250.4" y2="250.4" stroke-width="13"/><line x1="150" y1="206" x2="150" y2="216" stroke-width="9"/><line x1="150" y1="232" x2="150" y2="250" stroke-width="11"/><line x1="150" y1="266" x2="150" y2="292" stroke-width="13"/><line x1="110.4" y1="189.6" x2="103.3" y2="196.7" stroke-width="9"/><line x1="92" y1="208" x2="79.3" y2="220.7" stroke-width="11"/><line x1="68" y1="232" x2="49.6" y2="250.4" stroke-width="13"/><line x1="94" y1="150" x2="84" y2="150" stroke-width="9"/><line x1="68" y1="150" x2="50" y2="150" stroke-width="11"/><line x1="34" y1="150" x2="8" y2="150" stroke-width="13"/><line x1="110.4" y1="110.4" x2="103.3" y2="103.3" stroke-width="9"/><line x1="92" y1="92" x2="79.3" y2="79.3" stroke-width="11"/><line x1="68" y1="68" x2="49.6" y2="49.6" stroke-width="13"/><line x1="150" y1="94" x2="150" y2="84" stroke-width="9"/><line x1="150" y1="68" x2="150" y2="50" stroke-width="11"/><line x1="150" y1="34" x2="150" y2="8" stroke-width="13"/><line x1="189.6" y1="110.4" x2="196.7" y2="103.3" stroke-width="9"/><line x1="208" y1="92" x2="220.7" y2="79.3" stroke-width="11"/><line x1="232" y1="68" x2="250.4" y2="49.6" stroke-width="13"/></g></svg>';
 const IC = {
   lock:'<svg class="i" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10.5" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>',
@@ -539,6 +553,7 @@ var NAV_CLIENTS_OPEN = true;
 function nav(cur){
   const btn = (id,label,ini,count) => `<button data-go="${id}" ${cur===id?'aria-current="page"':''}>${ini?`<span class="mono-ini">${ini}</span>`:IC.dash}<span class="lbl">${esc(label)}</span>${count!==undefined?`<span class="badge${count?'':' soft'}">${count}</span>`:''}</button>`;
   let h = btn("vue","Vue d'ensemble");
+  h += btn("besoins","Besoins actuels",null,(typeof BESOINS!=="undefined"&&BESOINS)?BESOINS.length:undefined).replace(IC.dash,IC.case);
   h += btn("statistiques","Statistiques",null,undefined).replace(IC.dash,IC.chart);
   h += btn("questionnaire","Questionnaire",null,undefined).replace(IC.dash,IC.form);
   h += `<div class="navsec">Espace Alex</div>`;
@@ -1069,24 +1084,75 @@ function suiviGate(){
 }
 document.addEventListener("click", e => { if (e.target.closest("#suivi-me")) { SUIVI_OK = true; try { sessionStorage.setItem("suivi-ok","1"); } catch(err){} render(); } });
 
+/* ===== Besoins actuels (copie Potalas) ===== */
+function besoinsView(){
+  const byC = {}; BESOINS.forEach((b,i)=>{ (byC[b.client]=byC[b.client]||[]).push(Object.assign({i},b)); });
+  const clients = Object.keys(byC).sort((a,b)=>byC[b].length-byC[a].length || a.localeCompare(b));
+  const coms = ["Alex","Sandrine","Amir"];
+  const cnt = n => BESOINS.filter(b=>b.com.split("/").map(s=>s.trim()).includes(n)).length;
+  const viaPart = BESOINS.filter(b=>b.part).length;
+  const fmt = d => d ? new Date(d+"T12:00:00").toLocaleDateString("fr-FR",{day:"numeric",month:"short",year:"numeric"}) : "Date non renseignée";
+  const top = clients.slice(0,8).map(c=>[c,byC[c].length]);
+  return `
+  <div class="phead sechead"><div><h1>Besoins actuels</h1><p>Les besoins clients au statut « Actif » dans le fichier Potalas. Clique sur un client pour voir son récap.</p></div>
+    <div class="actions"><a class="btn sec" href="${POTALAS_URL}" target="_blank" rel="noopener">${IC.link} Ouvrir Potalas en ligne</a></div></div>
+  <div class="alert info"><span class="dot"></span><div>Données issues de la copie du fichier Potalas du 30/10/2026. Le fichier en ligne fait foi : TJ et profils identifiés n'apparaissent pas ici.</div></div>
+  <div class="grid g4">
+    <div class="kpi"><div class="kt">Besoins actifs <span class="ki">${IC.case}</span></div><b>${BESOINS.length}</b><div class="kf">chez ${clients.length} clients</div></div>
+    <div class="kpi"><div class="kt">Premier client <span class="ki">${IC.build}</span></div><b class="kpi-s">${esc(clients[0])}</b><div class="kf">${byC[clients[0]].length} besoins ouverts</div></div>
+    <div class="kpi"><div class="kt">Via un partenaire <span class="ki">${IC.link}</span></div><b>${Math.round(viaPart/BESOINS.length*100)} %</b><div class="kf">${viaPart} besoins sur ${BESOINS.length}</div></div>
+    <div class="kpi"><div class="kt">Par commercial <span class="ki">${IC.users}</span></div><b class="kpi-s">${coms.map(n=>cnt(n)).join(" · ")}</b><div class="kf">Alex · Sandrine · Amir (besoins partagés comptés pour chacun)</div></div>
+  </div>
+  <section class="card"><div class="ch"><div class="tt"><h2>Besoins par client</h2></div><span class="small muted">Les 8 premiers</span></div><div class="cb">${hbars(top,["besoin","besoins"],BESOINS.length)}</div></section>
+  <section class="card"><div class="cb bf">
+    <div class="seg" role="group" aria-label="Commercial"><button type="button" data-bcom="" aria-pressed="${!BF.com}">Tous</button>${coms.map(n=>`<button type="button" data-bcom="${n}" aria-pressed="${BF.com===n}">${n}</button>`).join("")}</div>
+    <select id="bf-client" aria-label="Filtrer par client"><option value="">Tous les clients</option>${clients.map(c=>`<option value="${esc(c)}"${BF.client===c?" selected":""}>${esc(c)} (${byC[c].length})</option>`).join("")}</select>
+    <input type="text" id="bf-q" placeholder="Rechercher : Java, DevOps, Monaco…" value="${esc(BF.q)}" aria-label="Rechercher un besoin">
+    <span class="small muted" id="bf-count"></span>
+  </div></section>
+  <div class="bgroups">${clients.map(c=>{ const acc = C.find(x=>x.name.toLowerCase()===c.toLowerCase()) || EXTRA.find(x=>x.name.toLowerCase()===c.toLowerCase());
+    return `<section class="card bgroup" data-client="${esc(c)}"><div class="ch"><div class="tt" style="flex-direction:row;align-items:center;gap:12px">${acc&&LOGOS[acc.id]?`<span class="alogo${SQ.includes(acc.id)?" sq":""}"><img src="${LOGOS[acc.id]}" alt=""></span>`:`<span class="ai">${esc(iniOf(c))}</span>`}<h2>${acc?`<a href="#${acc.id}" data-go="${acc.id}">${esc(c)}</a>`:esc(c)}</h2></div><span class="badge bcount">${byC[c].length}</span></div>
+      <div class="list">${byC[c].map(b=>`<div class="li brow" data-com="${esc(b.com)}" data-txt="${esc((b.titre+" "+b.poste+" "+b.loc+" "+b.part+" "+b.niveau+" "+c).toLowerCase())}"><div><div class="t">${esc(b.titre)}</div><div class="s">${[b.poste,b.niveau,b.part?"via "+b.part:"",b.loc,fmt(b.date)].filter(Boolean).map(esc).join(" · ")}</div></div><div class="tags">${b.com?b.com.split("/").map(n=>`<span class="pill p-com">${esc(n.trim())}</span>`).join(""):`<span class="pill">À attribuer</span>`}</div></div>`).join("")}</div></section>`; }).join("")}</div>
+  <div class="empty" id="bf-empty" hidden>Aucun besoin ne correspond à ces filtres.</div>`;
+}
+function applyBF(){
+  const rows = document.querySelectorAll(".brow"); if (!rows.length) return;
+  let n = 0;
+  document.querySelectorAll(".bgroup").forEach(g => {
+    let k = 0;
+    g.querySelectorAll(".brow").forEach(r => {
+      const ok = (!BF.client || g.dataset.client===BF.client) && (!BF.com || r.dataset.com.split("/").map(s=>s.trim()).includes(BF.com)) && (!BF.q || r.dataset.txt.includes(BF.q.toLowerCase()));
+      r.hidden = !ok; if (ok) k++;
+    });
+    g.hidden = k===0; const bc = g.querySelector(".bcount"); if (bc) bc.textContent = k; n += k;
+  });
+  const c = document.getElementById("bf-count"); if (c) c.textContent = n+" besoin"+(n>1?"s":"")+" affiché"+(n>1?"s":"");
+  const e = document.getElementById("bf-empty"); if (e) e.hidden = n>0;
+}
+document.addEventListener("click", e => { const b = e.target.closest("[data-bcom]"); if (b){ BF.com = b.dataset.bcom; document.querySelectorAll("[data-bcom]").forEach(x=>x.setAttribute("aria-pressed", x===b?"true":"false")); applyBF(); } });
+document.addEventListener("change", e => { if (e.target.id==="bf-client"){ BF.client = e.target.value; applyBF(); } });
+document.addEventListener("input", e => { if (e.target.id==="bf-q"){ BF.q = e.target.value.trim(); applyBF(); } });
+
 function render(){
   const id = (location.hash||"").slice(1);
   const c = findAcc(id);
   const st = id==="statistiques";
   const su = id==="suivi";
+  const be = id==="besoins";
   const bi = id==="bilan";
   let m;
   const sp = (m=id.match(/^espace-(alex|amir|sandrine)$/)) ? m[1] : null;
   const add = (m=id.match(/^ajout-(alex|amir|sandrine)$/)) ? m[1] : (id==="questionnaire" ? "amir" : null);
   const mod = (m=id.match(/^modif-(.+)$/)) ? m[1] : null;
-  const cur = c ? c.id : st ? "statistiques" : su ? "suivi" : bi ? "bilan" : sp ? "espace-"+sp : (add||mod) ? "questionnaire" : "vue";
+  const cur = c ? c.id : st ? "statistiques" : be ? "besoins" : su ? "suivi" : bi ? "bilan" : sp ? "espace-"+sp : (add||mod) ? "questionnaire" : "vue";
   nav(cur);
   if ((add||mod) && document.getElementById("qform") && document.getElementById("qform").dataset.route===id) return;
   const crumb = t => `<span>Comptes clients</span><span>›</span><b>${esc(t)}</b>`;
-  document.getElementById("crumb").innerHTML = c ? crumb(c.name) : st ? crumb("Statistiques") : su ? crumb("Suivi collaborateurs") : bi ? crumb("Bilan 2026") : sp ? crumb("Espace "+SPACES[sp]) : add ? crumb("Questionnaire") : mod ? crumb("Modifier un compte") : `<b>Vue d'ensemble</b>`;
+  document.getElementById("crumb").innerHTML = c ? crumb(c.name) : st ? crumb("Statistiques") : su ? crumb("Suivi collaborateurs") : be ? crumb("Besoins actuels") : bi ? crumb("Bilan 2026") : sp ? crumb("Espace "+SPACES[sp]) : add ? crumb("Questionnaire") : mod ? crumb("Modifier un compte") : `<b>Vue d'ensemble</b>`;
   let html;
   if (c) html = clientView(c);
   else if (st) html = stats();
+  else if (be) html = besoinsView();
   else if (su) html = SUIVI_OK ? suiviView() : suiviGate();
   else if (bi) html = bilanView();
   else if (sp) html = spaceView(sp);
@@ -1095,6 +1161,7 @@ function render(){
   else html = overview();
   document.getElementById("main").innerHTML = html;
   const f = document.getElementById("qform"); if (f) f.dataset.route = id;
+  if (be) applyBF();
   try { document.title = c ? c.name+" · Comptes clients Inov Team" : "Comptes clients Inov Team"; } catch(e){}
 }
 document.addEventListener("click", e => {
