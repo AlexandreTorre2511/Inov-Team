@@ -392,6 +392,7 @@ input[type=password]{font:inherit;color:inherit;background:var(--surface);border
 .bgroup .ai{width:36px;height:36px;border-radius:10px;background:var(--grad);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px}
 .brow .tags{justify-content:flex-end}
 [hidden]{display:none !important}
+.pill.p-prio{background:var(--grad);color:#fff;margin-right:6px;vertical-align:1px}
 </style>
 </head>
 <body>
@@ -1087,6 +1088,7 @@ document.addEventListener("click", e => { if (e.target.closest("#suivi-me")) { S
 /* ===== Besoins actuels (copie Potalas) ===== */
 function besoinsView(){
   const byC = {}; BESOINS.forEach((b,i)=>{ (byC[b.client]=byC[b.client]||[]).push(Object.assign({i},b)); });
+  Object.values(byC).forEach(a=>a.sort((x,y)=>(y.prio?1:0)-(x.prio?1:0)));
   const clients = Object.keys(byC).sort((a,b)=>byC[b].length-byC[a].length || a.localeCompare(b));
   const coms = ["Alex","Sandrine","Amir"];
   const cnt = n => BESOINS.filter(b=>b.com.split("/").map(s=>s.trim()).includes(n)).length;
@@ -1094,7 +1096,7 @@ function besoinsView(){
   const fmt = d => d ? new Date(d+"T12:00:00").toLocaleDateString("fr-FR",{day:"numeric",month:"short",year:"numeric"}) : "Date non renseignée";
   const top = clients.slice(0,8).map(c=>[c,byC[c].length]);
   return `
-  <div class="phead sechead"><div><h1>Besoins actuels</h1><p>Les besoins clients au statut « Actif » dans le fichier Potalas. Clique sur un client pour voir son récap.</p></div>
+  <div class="phead sechead"><div><h1>Besoins actuels</h1><p>Les besoins clients au statut « Actif » ou « Actif prioritaire » dans le fichier Potalas, les prioritaires en premier. Clique sur un client pour voir son récap.</p></div>
     <div class="actions"><a class="btn sec" href="${POTALAS_URL}" target="_blank" rel="noopener">${IC.link} Ouvrir Potalas en ligne</a></div></div>
   <div class="alert info"><span class="dot"></span><div>Données issues de la copie du fichier Potalas du 30/10/2026. Le fichier en ligne fait foi : TJ et profils identifiés n'apparaissent pas ici.</div></div>
   <div class="grid g4">
@@ -1112,7 +1114,7 @@ function besoinsView(){
   </div></section>
   <div class="bgroups">${clients.map(c=>{ const acc = C.find(x=>x.name.toLowerCase()===c.toLowerCase()) || EXTRA.find(x=>x.name.toLowerCase()===c.toLowerCase());
     return `<section class="card bgroup" data-client="${esc(c)}"><div class="ch"><div class="tt" style="flex-direction:row;align-items:center;gap:12px">${acc&&LOGOS[acc.id]?`<span class="alogo${SQ.includes(acc.id)?" sq":""}"><img src="${LOGOS[acc.id]}" alt=""></span>`:`<span class="ai">${esc(iniOf(c))}</span>`}<h2>${acc?`<a href="#${acc.id}" data-go="${acc.id}">${esc(c)}</a>`:esc(c)}</h2></div><span class="badge bcount">${byC[c].length}</span></div>
-      <div class="list">${byC[c].map(b=>`<div class="li brow" data-com="${esc(b.com)}" data-txt="${esc((b.titre+" "+b.poste+" "+b.loc+" "+b.part+" "+b.niveau+" "+c).toLowerCase())}"><div><div class="t">${esc(b.titre)}</div><div class="s">${[b.poste,b.niveau,b.part?"via "+b.part:"",b.loc,fmt(b.date)].filter(Boolean).map(esc).join(" · ")}</div></div><div class="tags">${b.com?b.com.split("/").map(n=>`<span class="pill p-com">${esc(n.trim())}</span>`).join(""):`<span class="pill">À attribuer</span>`}</div></div>`).join("")}</div></section>`; }).join("")}</div>
+      <div class="list">${byC[c].map(b=>`<div class="li brow" data-com="${esc(b.com)}" data-txt="${esc((b.titre+" "+b.poste+" "+b.loc+" "+b.part+" "+b.niveau+" "+c).toLowerCase())}"><div><div class="t">${b.prio?`<span class="pill p-prio">Prioritaire</span> `:""}${esc(b.titre)}</div><div class="s">${[b.poste,b.niveau,b.part?"via "+b.part:"",b.loc,fmt(b.date)].filter(Boolean).map(esc).join(" · ")}</div></div><div class="tags">${b.com?b.com.split("/").map(n=>`<span class="pill p-com">${esc(n.trim())}</span>`).join(""):`<span class="pill">À attribuer</span>`}</div></div>`).join("")}</div></section>`; }).join("")}</div>
   <div class="empty" id="bf-empty" hidden>Aucun besoin ne correspond à ces filtres.</div>`;
 }
 function applyBF(){
