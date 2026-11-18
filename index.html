@@ -359,6 +359,12 @@ tr.click{cursor:pointer} tr.click:hover td{background:var(--sunk)}
 .modal .mf .hint{margin-right:auto}
 input[type=date]{font:inherit;color:inherit;background:var(--surface);border:1px solid var(--line-2);border-radius:10px;padding:8px 12px;width:100%}
 .modal .person,.tablewrap .person{border:0;background:none;padding:0}
+.list{display:flex;flex-direction:column}
+.li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 20px;border-bottom:1px solid var(--line)}
+.li:last-child{border-bottom:0}
+.li .t{font-weight:700}
+.li .s{font-size:12.5px;color:var(--muted)}
+a.hchip{color:#fff;text-decoration:none}a.hchip:hover{background:rgba(255,255,255,.24);text-decoration:none}
 </style>
 </head>
 <body>
@@ -509,6 +515,7 @@ function nav(cur){
   h += btn("statistiques","Statistiques",null,undefined).replace(IC.dash,IC.chart);
   h += btn("questionnaire","Questionnaire",null,undefined).replace(IC.dash,IC.form);
   h += btn("suivi","Suivi collabs",null,undefined).replace(IC.dash,IC.cal);
+  h += btn("bilan","Bilan 2026",null,undefined).replace(IC.dash,IC.chart);
   h += `<div class="navsec">Espace Alex</div>`;
   C.filter(c=>c.big).forEach(c=>h+=btn(c.id,c.name,c.ini,c.collabs.length));
   C.filter(c=>!c.big).forEach(c=>h+=btn(c.id,c.name,c.ini,c.collabs.length));
@@ -988,24 +995,87 @@ document.addEventListener("submit", async e => {
     msg.textContent = (err&&err.code)==="invalid_argument" ? "Enregistrement refusé : il faut un accès Contributeur ou plus." : "Enregistrement impossible pour le moment, réessaie."; }
 });
 
+
+/* ===== Bilan 2026 (simplifié) ===== */
+var BILAN_URL = "https://claude.ai/artifact/1zSfSLHohLxciRWHicgdMr";
+function bilanView(){
+  const kp = (l,v,s) => `<div class="kpi"><div class="kt">${l}</div><b>${v}</b><div class="kf">${s}</div></div>`;
+  const obj = [
+    ["Business","Avoir 10 ETP staffés au 31/12","13 / 10",130,"13 consultants en mission au 16/11","ok"],
+    ["Business","Ouvrir 4 comptes ou départements","5 / 4",125,"Plus 3 contrats cadres et référencements DSI","ok"],
+    ["Business","Atteindre 30 k€ de marge mensuelle","34,7 k€ / 30 k€",116,"Marge mensuelle au 16/11/2026","ok"],
+    ["Recrutement","Recruter 10 collaborateurs ou freelances","2 / 10",20,"Plus 3 cooptations accompagnées sur tout le processus","warn"]];
+  const marge = [["Docaposte",12.8,32],["Amadeus",6.4,24],["Orange",5.4,33],["PRO BTP",4.9,49],["EPS",3.0,37],["Kappa Engineering",2.3,23]];
+  const maxM = Math.max(...marge.map(m=>m[1]));
+  const quali = [
+    ["Business","Développer au moins 3 contacts actifs par compte","53 contacts clients sur 7 comptes, 8 directions chez PRO BTP","ok"],
+    ["Business","Adresser en proximité Amadeus et Air France","CGI pour Amadeus, Atos pour Air France, relation avec Softeam, contrat avec SII","ok"],
+    ["Business","Prioriser nos métiers et la prestation longue durée","100 % de prestation sur le portefeuille","ok"],
+    ["Business","Shortlist de 3 pistes et remontée de besoins","Liste hebdomadaire des besoins Rang 1 et Rang 2","ok"],
+    ["Business","Relation directe et référencement chez PRO BTP et Orange","Contrat cadre PRO BTP, relation suivie avec Stéphane Pierronne chez Orange","ok"],
+    ["Recrutement","Suivi des candidats jusqu'à l'onboarding","100 % des candidats suivis jusqu'au démarrage","ok"],
+    ["Transverse","Offres, sous-offres et présentation du groupe","Offres Innovation, Ingénierie Logicielle et Delivery présentées en autonomie","ok"],
+    ["Transverse","Agenda structuré","Validé sur les tâches prioritaires, à travailler sur les tâches de fond","warn"]];
+  const faits = [
+    ["arkopharma","TMA Octopus remportée","Retenue face à un cabinet d'audit concurrent. Contrat sur 3 ans, démarrage en janvier 2027."],
+    ["pro-btp","PRO BTP passe en direct","Contrat cadre, DSC et DGA OR ouverts, besoins remontés en direct. Lot 1 de la formation GitHub Copilot livré en juin."],
+    ["docaposte","Docaposte, premier compte en marge","3 consultants staffés entre septembre et novembre via Softeam, 5 sur le compte."],
+    ["orange","Orange Data IA ouvert","Antoine Robin staffé en mars, Romain Algret signé pour janvier via SII."],
+    ["eps","EPS ouvert en direct","Contrat cadre et référencement DSI, Florian Demoulin staffé depuis le bench en juin."]];
+  const axes = [
+    ["Consolider l'existant",["Sécuriser les 12 consultants de départ : Docaposte 5, Orange 3, Amadeus 2, PRO BTP 1, Kappa 1","Démarrages de janvier : TMA Octopus chez Arkopharma, Romain Algret chez Orange","Point mensuel avec chaque consultant"]],
+    ["Garder la même croissance en rang 2",["Amadeus via CGI et Docaposte via Softeam : rendez-vous hebdomadaire","Liste hebdomadaire des besoins Rang 1 et Rang 2","Mieux adresser Air France via Atos et la MDC CGI : Java Angular, Scrum Master"]],
+    ["Croissance organique en direct chez PRO BTP et Orange",["PRO BTP : dérouler l'organigramme, 8 directions et 34 contacts, une matinée par semaine sur site","Orange : tenter le +1 chez Data IA, sur site 2 fois par mois","Focus : Java Angular, PMO, Ingénieur IA, Scrum Master, SysOps, Node React"]],
+    ["Reprendre des positions chez EPS et Kappa",["EPS : rendez-vous tous les 2 mois, staffer le CPM, sourcing Back End Java microservices","Kappa : sur site 2 fois par mois, déjeuner avec Olivier Allain","Focus Kappa : React C# et Back end C#"]]];
+  const st = s => s==="ok" ? `<span class="pill p-ok">Validé</span>` : `<span class="pill p-warn">En partie</span>`;
+  const logo = id => LOGOS[id] ? `<span class="alogo${SQ.includes(id)?" sq":""}"><img src="${LOGOS[id]}" alt=""></span>` : "";
+  return `
+  <section class="hero">${SUN}<div><span class="eyebrow">Bilan 2026 · Alexandre TORRE · au 16/11/2026</span><h1>3 objectifs business dépassés</h1><p>7 objectifs qualitatifs validés sur 8. L'objectif recrutement est atteint en partie. Cap 2027 : consolider, puis faire grandir.</p>
+    <div class="hchips"><a class="hchip" href="${BILAN_URL}" target="_blank" rel="noopener">${IC.link}Ouvrir le bilan complet</a></div></div>
+    <div class="hcount"><b>31 %</b><span>de taux de marge</span></div></section>
+  <div class="sechead"><div><h2>Mon année en chiffres</h2><p>Portefeuille complet au 16/11/2026, Romain Algret inclus (démarrage le 04/01/2027).</p></div></div>
+  <div class="grid g3">
+    ${kp("Chiffre d'affaires annualisé","1 430 645 €","Mensualisé : 119 220 € HT")}
+    ${kp("Marge annualisée","443 366 €","Mensualisée : 36 947 €")}
+    ${kp("Taux de marge","31 %","Sur l'ensemble du portefeuille")}
+    ${kp("ETP en mission","13","Objectif 10 au 31/12")}
+    ${kp("Ouvertures","5","Objectif 4, plus 3 contrats cadres")}
+    ${kp("Placements 2026","12","Recrutements, cooptations, bench")}
+  </div>
+  <div class="sechead"><div><h2>Objectifs quantitatifs</h2><p>Mesures au 16/11/2026.</p></div></div>
+  <div class="grid g4">${obj.map(o=>`<div class="kpi"><div class="kt"><span class="pill">${o[0]}</span>${o[5]==="ok"?'<span class="pill p-ok">Dépassé</span>':'<span class="pill p-warn">Partiel</span>'}</div><b style="color:var(--${o[5]==="ok"?"ok":"warn"})">${o[3]} %</b><div class="meter" aria-hidden="true"><i style="width:${Math.min(o[3],100)}%;${o[5]==="ok"?"":"background:var(--warn)"}"></i></div><div style="font-weight:700">${o[1]}</div><div class="kf"><b class="mono" style="font-size:13px;color:var(--fg)">${o[2]}</b> · ${o[4]}</div></div>`).join("")}</div>
+  <div class="grid g2">
+    <section class="card"><div class="ch"><div class="tt"><h2>Marge mensuelle par compte</h2></div><span class="pill p-acc">88 % issus de missions démarrées en 2026</span></div><div class="cb">
+      <div class="hb">${marge.map(m=>`<div class="hr" tabindex="0" data-tip="${esc(m[0])}<span>${String(m[1]).replace(".",",")} k€ par mois · taux de marge ${m[2]} %</span>"><span class="hl">${esc(m[0])}</span><span class="ht"><span class="hf" style="width:${m[1]/maxM*100}%"></span></span><span class="hv">${String(m[1].toFixed(1)).replace(".",",")}</span></div>`).join("")}</div>
+      <p class="cnote">En k€ par mois au 16/11/2026, sur les 13 consultants en mission. Taux de marge : Docaposte 32 %, Amadeus 24 %, Orange 33 %, PRO BTP 49 %, EPS 37 %, Kappa 23 %.</p></div></section>
+    <section class="card"><div class="ch"><div class="tt"><h2>Objectifs qualitatifs</h2></div><span class="pill p-ok">7 validés sur 8</span></div><div class="list">${quali.map(q=>`<div class="li"><div><div class="t">${esc(q[1])}</div><div class="s">${esc(q[0])} · ${esc(q[2])}</div></div>${st(q[3])}</div>`).join("")}</div></section>
+  </div>
+  <div class="sechead"><div><h2>Faits marquants</h2><p>Les réussites de l'année.</p></div></div>
+  <div class="grid g3">${faits.map(f=>`<div class="card"><div class="cb">${logo(f[0])}<h2>${esc(f[1])}</h2><p class="muted">${esc(f[2])}</p></div></div>`).join("")}</div>
+  <div class="sechead"><div><h2>Stratégie 2027 : consolider, puis faire grandir</h2><p>Point de départ : 12 consultants, 33 245 € de marge mensuelle, soit 398 945 € annualisés et 32,5 % de taux de marge.</p></div></div>
+  <div class="grid g2">${axes.map((a,i)=>`<section class="card"><div class="ch"><div class="tt"><span class="num">Axe ${i+1} sur 4</span><h2>${esc(a[0])}</h2></div></div><div class="cb"><ul class="clean">${a[1].map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div></section>`).join("")}</div>`;
+}
+
 function render(){
   const id = (location.hash||"").slice(1);
   const c = findAcc(id);
   const st = id==="statistiques";
   const su = id==="suivi";
+  const bi = id==="bilan";
   let m;
   const sp = (m=id.match(/^espace-(alex|amir|sandrine)$/)) ? m[1] : null;
   const add = (m=id.match(/^ajout-(alex|amir|sandrine)$/)) ? m[1] : (id==="questionnaire" ? "amir" : null);
   const mod = (m=id.match(/^modif-(.+)$/)) ? m[1] : null;
-  const cur = c ? c.id : st ? "statistiques" : su ? "suivi" : sp ? "espace-"+sp : (add||mod) ? "questionnaire" : "vue";
+  const cur = c ? c.id : st ? "statistiques" : su ? "suivi" : bi ? "bilan" : sp ? "espace-"+sp : (add||mod) ? "questionnaire" : "vue";
   nav(cur);
   if ((add||mod) && document.getElementById("qform") && document.getElementById("qform").dataset.route===id) return;
   const crumb = t => `<span>Comptes clients</span><span>›</span><b>${esc(t)}</b>`;
-  document.getElementById("crumb").innerHTML = c ? crumb(c.name) : st ? crumb("Statistiques") : su ? crumb("Suivi collaborateurs") : sp ? crumb("Espace "+SPACES[sp]) : add ? crumb("Questionnaire") : mod ? crumb("Modifier un compte") : `<b>Vue d'ensemble</b>`;
+  document.getElementById("crumb").innerHTML = c ? crumb(c.name) : st ? crumb("Statistiques") : su ? crumb("Suivi collaborateurs") : bi ? crumb("Bilan 2026") : sp ? crumb("Espace "+SPACES[sp]) : add ? crumb("Questionnaire") : mod ? crumb("Modifier un compte") : `<b>Vue d'ensemble</b>`;
   let html;
   if (c) html = clientView(c);
   else if (st) html = stats();
   else if (su) html = suiviView();
+  else if (bi) html = bilanView();
   else if (sp) html = spaceView(sp);
   else if (add) html = formView(add, null);
   else if (mod) html = EXTRA.find(x=>x.docId===mod) ? formView(null, mod) : (dbState==="loading"||dbState==="slow" ? dbNotice() : `<div class="empty">Ce compte n'existe plus.</div>`);
