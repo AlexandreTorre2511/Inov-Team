@@ -393,6 +393,8 @@ input[type=password]{font:inherit;color:inherit;background:var(--surface);border
 .brow .tags{justify-content:flex-end}
 [hidden]{display:none !important}
 .pill.p-prio{background:var(--grad);color:#fff;margin-right:6px;vertical-align:1px}
+.linkbtn{background:none;border:0;padding:0;color:var(--accent,#0644FD);font:inherit;font-weight:600;cursor:pointer;text-decoration:underline}
+.phead .actions{display:flex;gap:10px;flex-wrap:wrap}
 </style>
 </head>
 <body>
@@ -412,6 +414,9 @@ input[type=password]{font:inherit;color:inherit;background:var(--surface);border
 <script>
 var BF = { client:"", com:"", q:"" };
 var BESOINS = [{"client": "Amadeus", "part": "CGI", "loc": "Sophia", "date": "2026-09-21", "titre": "3 Développeur Java IA · Dispo ASAP", "poste": "Développement Java", "niveau": "Confirmé / Sénior", "com": "Alex", "prio": true}, {"client": "Docaposte", "part": "Softeam", "loc": "Sophia", "date": "2026-11-06", "titre": "1 développeur Fullstack Java / Angular mais plutôt Front · Dispo ASAP", "poste": "Développement Java", "niveau": "Confirmé / Sénior", "com": "Alex", "prio": true}, {"client": "Air France", "part": "CGI", "loc": "Sophia", "date": "2026-10-22", "titre": "1 développeur Back Java Sénior / 1 Dev Fullstack confirmé", "poste": "Développement Java", "niveau": "Sénior", "com": "Sandrine", "prio": true}, {"client": "SMEG", "part": "", "loc": "Monaco", "date": "", "titre": "1 support Helpdesk", "poste": "", "niveau": "", "com": "Sandrine", "prio": false}, {"client": "Caisses Sociales de Monaco", "part": "", "loc": "Monaco", "date": "", "titre": "1 dev Fullstack Java / Angular", "poste": "Développement Java", "niveau": "Confirmé", "com": "Sandrine/Amir", "prio": true}, {"client": "Air France", "part": "Atos", "loc": "Sophia", "date": "2026-10-22", "titre": "1 développeur Back Java Sénior (E commerce)", "poste": "Développement Java", "niveau": "Sénior", "com": "Alex", "prio": true}, {"client": "Air France", "part": "Atos", "loc": "Sophia", "date": "2026-10-22", "titre": "1 développeur Java Angular Confirmé équipe ComOps (Ground services)", "poste": "Développement Java/Angular", "niveau": "Confirmé", "com": "Alex", "prio": false}, {"client": "Docaposte", "part": "Softeam", "loc": "Sophia", "date": "2026-10-19", "titre": "1 SRE Contralia", "poste": "DevOps", "niveau": "Confirmé", "com": "Alex", "prio": false}, {"client": "Orange", "part": "", "loc": "Mougins", "date": "2026-10-20", "titre": "1 renfort DevOps Kubernetes / Helm · PNS · DATA IA / équipe SNAPI", "poste": "DevOps", "niveau": "Confirmé", "com": "Alex", "prio": true}, {"client": "Orange", "part": "", "loc": "Mougins", "date": "2026-10-20", "titre": "1 renfort DevOps Kubernetes / Helm · PNS · DATA IA / équipe STEP Cassandra (Bdd)", "poste": "DevOps", "niveau": "Confirmé", "com": "Alex", "prio": false}, {"client": "TAS", "part": "CGI", "loc": "Sophia", "date": "2026-09-28", "titre": "1 Dev Java et compétences DevSecOps", "poste": "Développement Java et Autres", "niveau": "Sénior", "com": "Sandrine", "prio": false}, {"client": "TAS", "part": "CGI", "loc": "Sophia", "date": "2026-09-28", "titre": "1 CP Senior IT", "poste": "Chef de projet", "niveau": "Sénior", "com": "Sandrine", "prio": false}, {"client": "URSSAF", "part": "LBC", "loc": "Sophia", "date": "2026-09-28", "titre": "Expert DevOps", "poste": "DevOps", "niveau": "Sénior", "com": "Sandrine", "prio": false}, {"client": "Air France", "part": "LBC", "loc": "Sophia", "date": "2026-09-21", "titre": "Data Engineer Senior · Expertise GCP obligatoire", "poste": "Spécialiste IA", "niveau": "Sénior", "com": "Sandrine", "prio": false}, {"client": "Gouvernement de Monaco", "part": "ASTERIA", "loc": "Monaco", "date": "2026-09-18", "titre": "1 DevOps Cloud · Mi octobre", "poste": "DevOps", "niveau": "Confirmé", "com": "Amir", "prio": false}, {"client": "Air France", "part": "CGI", "loc": "Sophia", "date": "2026-09-18", "titre": "1 dev Fullstack Senior ASAP", "poste": "Développement Java/Angular", "niveau": "Sénior", "com": "Sandrine", "prio": false}, {"client": "Air France", "part": "CGI", "loc": "Sophia", "date": "2026-09-18", "titre": "1 CP / BA avec connaissance Technique · Décembre", "poste": "Chef de projet", "niveau": "Confirmé / Sénior", "com": "", "prio": false}, {"client": "PRO BTP", "part": "", "loc": "Cagnes-sur-mer", "date": "2026-09-28", "titre": "Sénior Testeur (Auto et Manuel) Ramp up sur la fin d'année", "poste": "Testeur fonctionnel et auto", "niveau": "Sénior", "com": "Alex", "prio": false}, {"client": "EPS", "part": "", "loc": "Cagnes-sur-mer", "date": "2026-09-10", "titre": "Chargé(e) de Processus et Méthodes Informatiques", "poste": "Chef de projet", "niveau": "Sénior", "com": "Alex", "prio": false}, {"client": "Amadeus", "part": "Thales", "loc": "Sophia", "date": "2026-09-04", "titre": "1 DevOps / DataOps sur Gouvernance et qualité des données", "poste": "DevOps", "niveau": "Confirmé", "com": "Sandrine", "prio": false}, {"client": "EPS", "part": "", "loc": "Cagnes-sur-mer", "date": "2026-03-30", "titre": "Dev Java / Lazy / Kafka (+30 people d'ici 2029)", "poste": "Développement Java", "niveau": "Sénior", "com": "Alex", "prio": false}, {"client": "Gouvernement de Monaco", "part": "ASTERIA", "loc": "Monaco", "date": "2026-07-22", "titre": "1 CP", "poste": "Chef de projet", "niveau": "Confirmé", "com": "Sandrine/Amir", "prio": false}];
+var BESOINS_SRC = "Données lues dans Potalas en ligne (feuille Business) le 18/11/2026.";
+var BESOINS_LOCAL = false;
+try { const s = JSON.parse(localStorage.getItem("inov_besoins")||"null"); if (s && Array.isArray(s.rows) && s.rows.length){ BESOINS = s.rows; BESOINS_SRC = "Données importées depuis "+s.file+" le "+s.when+"."; BESOINS_LOCAL = true; } } catch(e){}
 var POTALAS_URL = "https://inovteamsi.sharepoint.com/:x:/r/sites/SuiviOperationnel/_layouts/15/Doc.aspx?sourcedoc=%7BC4678017-4E00-4113-B939-DE23B816E3F7%7D&file=Potalas%20V1.xlsm&action=default&mobileredirect=true";
 
 const SUN = '<svg class="sun" viewBox="0 0 300 300" aria-hidden="true"><g stroke="#fff" stroke-linecap="round"><line x1="206" y1="150" x2="216" y2="150" stroke-width="9"/><line x1="232" y1="150" x2="250" y2="150" stroke-width="11"/><line x1="266" y1="150" x2="292" y2="150" stroke-width="13"/><line x1="189.6" y1="189.6" x2="196.7" y2="196.7" stroke-width="9"/><line x1="208" y1="208" x2="220.7" y2="220.7" stroke-width="11"/><line x1="232" y1="232" x2="250.4" y2="250.4" stroke-width="13"/><line x1="150" y1="206" x2="150" y2="216" stroke-width="9"/><line x1="150" y1="232" x2="150" y2="250" stroke-width="11"/><line x1="150" y1="266" x2="150" y2="292" stroke-width="13"/><line x1="110.4" y1="189.6" x2="103.3" y2="196.7" stroke-width="9"/><line x1="92" y1="208" x2="79.3" y2="220.7" stroke-width="11"/><line x1="68" y1="232" x2="49.6" y2="250.4" stroke-width="13"/><line x1="94" y1="150" x2="84" y2="150" stroke-width="9"/><line x1="68" y1="150" x2="50" y2="150" stroke-width="11"/><line x1="34" y1="150" x2="8" y2="150" stroke-width="13"/><line x1="110.4" y1="110.4" x2="103.3" y2="103.3" stroke-width="9"/><line x1="92" y1="92" x2="79.3" y2="79.3" stroke-width="11"/><line x1="68" y1="68" x2="49.6" y2="49.6" stroke-width="13"/><line x1="150" y1="94" x2="150" y2="84" stroke-width="9"/><line x1="150" y1="68" x2="150" y2="50" stroke-width="11"/><line x1="150" y1="34" x2="150" y2="8" stroke-width="13"/><line x1="189.6" y1="110.4" x2="196.7" y2="103.3" stroke-width="9"/><line x1="208" y1="92" x2="220.7" y2="79.3" stroke-width="11"/><line x1="232" y1="68" x2="250.4" y2="49.6" stroke-width="13"/></g></svg>';
@@ -1101,8 +1106,8 @@ function besoinsView(){
   const top = clients.slice(0,8).map(c=>[c,byC[c].length]);
   return `
   <div class="phead sechead"><div><h1>Besoins actuels</h1><p>Les besoins clients au statut « Actif » ou « Actif prioritaire » dans le fichier Potalas, les prioritaires en premier. Clique sur un client pour voir son récap.</p></div>
-    <div class="actions"><a class="btn sec" href="${POTALAS_URL}" target="_blank" rel="noopener">${IC.link} Ouvrir Potalas en ligne</a></div></div>
-  <div class="alert info"><span class="dot"></span><div>Données lues dans Potalas en ligne (feuille Business) le 18/11/2026. Le fichier en ligne fait foi : TJ et profils identifiés n'apparaissent pas ici.</div></div>
+    <div class="actions"><a class="btn sec" href="${POTALAS_URL}" target="_blank" rel="noopener">${IC.link} Ouvrir Potalas en ligne</a><button type="button" class="btn" id="bupd">${IC.spark} Mettre à jour</button><input type="file" id="bfile" accept=".xlsm,.xlsx" hidden></div></div>
+  <div class="alert info"><span class="dot"></span><div>${esc(BESOINS_SRC)}${BESOINS_LOCAL?` <button type="button" class="linkbtn" id="breset">Revenir à la version publiée</button>`:""} Le fichier en ligne fait foi : TJ et profils identifiés n'apparaissent pas ici.</div></div>
   <div class="grid g4">
     <div class="kpi"><div class="kt">Besoins actifs <span class="ki">${IC.case}</span></div><b>${BESOINS.length}</b><div class="kf">chez ${clients.length} clients</div></div>
     <div class="kpi"><div class="kt">Premier client <span class="ki">${IC.build}</span></div><b class="kpi-s">${esc(clients[0])}</b><div class="kf">${byC[clients[0]].length} besoins ouverts</div></div>
@@ -1121,6 +1126,63 @@ function besoinsView(){
       <div class="list">${byC[c].map(b=>`<div class="li brow" data-com="${esc(b.com)}" data-txt="${esc((b.titre+" "+b.poste+" "+b.loc+" "+b.part+" "+b.niveau+" "+c).toLowerCase())}"><div><div class="t">${b.prio?`<span class="pill p-prio">Prioritaire</span> `:""}${esc(b.titre)}</div><div class="s">${[b.poste,b.niveau,b.part?"via "+b.part:"",b.loc,fmt(b.date)].filter(Boolean).map(esc).join(" · ")}</div></div><div class="tags">${b.com?b.com.split("/").map(n=>`<span class="pill p-com">${esc(n.trim())}</span>`).join(""):`<span class="pill">À attribuer</span>`}</div></div>`).join("")}</div></section>`; }).join("")}</div>
   <div class="empty" id="bf-empty" hidden>Aucun besoin ne correspond à ces filtres.</div>`;
 }
+/* ===== Mise à jour des besoins depuis un fichier Potalas ===== */
+var BCL = {"AMADEUS":"Amadeus","DOCAPOSTE":"Docaposte","AIRFRANCE":"Air France","AIR FRANCE":"Air France","CSM":"Caisses Sociales de Monaco","ORANGE":"Orange","URSSAF":"URSSAF","GOUV":"Gouvernement de Monaco","GOUV MONACO":"Gouvernement de Monaco","PROBTP":"PRO BTP","PRO BTP":"PRO BTP","EPS":"EPS","KAPPA":"Kappa Engineering","SCHNEIDER":"Schneider Electric","CRÉDIT AGRICOLE":"Crédit Agricole","THALES DIS":"Thales DIS","CBS":"CBS Monaco","SILVERSEA":"Silversea","MEDIAN":"Median","ENOVACOM":"Enovacom","BARCLAYS":"Barclays"};
+function cap(s){ s=(s||"").trim(); return s.length<=4 ? s.toUpperCase() : s.charAt(0).toUpperCase()+s.slice(1).toLowerCase(); }
+function cleanTitre(t){
+  t = (t||"").replace(/\s*\(\s*TJM?\b[^)]*\)/g,"").replace(/\s*-?\s*TJM?\b[^)\-·]*/g," ").replace(/\s*[-·]?\s*\d+\s*€?\s*de\s*\)/g,")");
+  t = t.replace(/\b([Rr]emplacement|rplt)(\s+de)?\s+[A-ZÀ-Ý][A-Za-zÀ-ÿ.]*(\s+[A-ZÀ-Ý][A-ZÀ-Ýa-zà-ÿ.]*)?/g, "remplacement");
+  t = t.replace(/\s*\((?:profil comme|même profil que)[^)]*\)/gi,"").replace(/\(\s*\)/g,"");
+  t = t.replace(/\s+-\s+/g," · ").replace(/\s*-\s*$/,"").replace(/\s+/g," ").trim().replace(/^·\s*|\s*·$/g,"");
+  return t;
+}
+async function readPotalas(file){
+  const buf = await file.arrayBuffer(), dv = new DataView(buf), td = new TextDecoder();
+  let e = buf.byteLength-22; while (e>0 && dv.getUint32(e,true)!==0x06054b50) e--;
+  if (e<=0) throw new Error("Fichier illisible");
+  const n = dv.getUint16(e+10,true); let p = dv.getUint32(e+16,true); const files = {};
+  for (let i=0;i<n;i++){ const fl=dv.getUint16(p+28,true), el=dv.getUint16(p+30,true), cl=dv.getUint16(p+32,true); files[td.decode(new Uint8Array(buf,p+46,fl))]={m:dv.getUint16(p+10,true),cs:dv.getUint32(p+20,true),off:dv.getUint32(p+42,true)}; p+=46+fl+el+cl; }
+  async function get(name){ const f=files[name]; if(!f) return null; const lf=dv.getUint16(f.off+26,true), le=dv.getUint16(f.off+28,true); const d=new Uint8Array(buf,f.off+30+lf+le,f.cs); if(f.m===0) return td.decode(d); return await new Response(new Blob([d]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).text(); }
+  const P = s => new DOMParser().parseFromString(s,"application/xml");
+  const wb = P(await get("xl/workbook.xml")), rels = P(await get("xl/_rels/workbook.xml.rels"));
+  const sh = [...wb.getElementsByTagName("sheet")].find(s=>s.getAttribute("name").trim()==="Business");
+  if (!sh) throw new Error("Feuille Business introuvable");
+  const rid = sh.getAttribute("r:id");
+  const target = [...rels.getElementsByTagName("Relationship")].find(r=>r.getAttribute("Id")===rid).getAttribute("Target");
+  const ssr = await get("xl/sharedStrings.xml"); const ss = ssr ? [...P(ssr).getElementsByTagName("si")].map(si=>[...si.getElementsByTagName("t")].map(t=>t.textContent).join("")) : [];
+  const sx = P(await get("xl/"+target.replace(/^\/?xl\//,"")));
+  const rows = [];
+  for (const row of sx.getElementsByTagName("row")){
+    const v = {};
+    for (const c of row.getElementsByTagName("c")){ const col=c.getAttribute("r").replace(/\d+/g,""), t=c.getAttribute("t"), ve=c.getElementsByTagName("v")[0]; let val = ve ? ve.textContent : ((c.getElementsByTagName("t")[0]||{}).textContent ?? ""); if (t==="s") val = ss[+val]; v[col]=val; }
+    const st = (v.D||"").trim().toLowerCase();
+    if (st!=="actif" && st!=="actif prioritaire") continue;
+    const raw = (v.A||"").trim(), key = raw.toUpperCase();
+    const num = parseFloat(v.E); const date = v.E && !isNaN(num) && num>30000 ? new Date(Date.UTC(1899,11,30)+num*864e5).toISOString().slice(0,10) : "";
+    const part = (v.B||"").trim();
+    rows.push({ client: BCL[key] || cap(raw), part: part.length<=8 ? (part.toUpperCase()===part && part.length>4 ? cap(part) : part) : part, loc:(v.C||"").replace(/\s+/g," ").trim(), date, titre: cleanTitre(v.F), poste:(v.G||"").trim(), niveau:(v.H||"").replace(/\s+/g," ").trim(), com:(v.K||"").replace(/\s+/g," ").trim().replace(/\s*\/\s*/g,"/"), prio: st==="actif prioritaire" });
+  }
+  return rows;
+}
+document.addEventListener("click", e => {
+  if (e.target.closest("#bupd")) document.getElementById("bfile").click();
+  if (e.target.closest("#breset")) { try{ localStorage.removeItem("inov_besoins"); }catch(_){} location.reload(); }
+});
+document.addEventListener("change", async e => {
+  if (e.target.id!=="bfile" || !e.target.files[0]) return;
+  const f = e.target.files[0], btn = document.getElementById("bupd");
+  btn.disabled = true; btn.textContent = "Lecture du fichier…";
+  try {
+    const rows = await readPotalas(f);
+    if (!rows.length) throw new Error("Aucun besoin Actif ou Actif prioritaire trouvé");
+    const when = new Date().toLocaleDateString("fr-FR")+" à "+new Date().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
+    BESOINS = rows; BESOINS_SRC = "Données importées depuis "+f.name+" le "+when+"."; BESOINS_LOCAL = true;
+    try { localStorage.setItem("inov_besoins", JSON.stringify({rows,file:f.name,when})); } catch(_){}
+    BF.client=""; render();
+  } catch(err){ alertMsg("Mise à jour impossible : "+err.message); btn.disabled=false; btn.innerHTML = IC.spark+" Mettre à jour"; }
+});
+function alertMsg(m){ const a=document.querySelector(".alert.info div"); if(a) a.textContent=m; }
+
 function applyBF(){
   const rows = document.querySelectorAll(".brow"); if (!rows.length) return;
   let n = 0;
